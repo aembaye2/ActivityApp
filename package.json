@@ -1,5 +1,4 @@
 {
-  "homepage": "https://aembaye2.github.io/fabric-react-app",
   "version": "0.9.3",
   "private": true,
   "dependencies": {
@@ -45,8 +44,6 @@
   "scripts": {
     "start": "react-scripts --openssl-legacy-provider start",
     "predeploy": "npm run build",
-    "deploy": "gh-pages -d build",
-    "build": "react-scripts --openssl-legacy-provider build",
     "test": "react-scripts test",
     "eject": "react-scripts eject"
   },
