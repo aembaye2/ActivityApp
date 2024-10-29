@@ -1,0 +1,69 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Fabric.js XY Coordinate Grid</title>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/fabric.js/4.5.0/fabric.min.js"></script>
+    <style>
+      canvas {
+        border: 1px solid #ccc;
+      }
+    </style>
+  </head>
+  <body>
+    <canvas id="canvas" width="500" height="400"></canvas>
+    <button id="download">Download JSON</button>
+    <script>
+      const canvas = new fabric.Canvas("canvas")
+
+      // Set up grid
+      const gridSize = 30 // Adjusted grid size
+      const width = canvas.getWidth()
+      const height = canvas.getHeight()
+
+      // Draw grid lines
+      for (let i = 0; i <= width; i += gridSize) {
+        canvas.add(
+          new fabric.Line([i, 0, i, height], {
+            stroke: "#ccc",
+            selectable: false,
+          })
+        )
+      }
+
+      for (let i = 0; i <= height; i += gridSize) {
+        canvas.add(
+          new fabric.Line([0, i, width, i], {
+            stroke: "#ccc",
+            selectable: false,
+          })
+        )
+      }
+
+      // Add title
+      const title = new fabric.Text("Lemonade", {
+        left: width / 2,
+        top: gridSize / 4,
+        fontSize: 14,
+        originX: "center",
+        selectable: false,
+      })
+      canvas.add(title)
+
+      // Download JSON functionality
+      document
+        .getElementById("download")
+        .addEventListener("click", function () {
+          const json = JSON.stringify(canvas.toJSON())
+          const blob = new Blob([json], { type: "application/json" })
+          const url = URL.createObjectURL(blob)
+          const a = document.createElement("a")
+          a.href = url
+          a.download = "drawing.json"
+          a.click()
+          URL.revokeObjectURL(url)
+        })
+    </script>
+  </body>
+</html>

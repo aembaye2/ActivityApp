@@ -1,0 +1,18 @@
+.App-header nav ul {
+  display: flex;
+  justify-content: center;
+  gap: 20px;
+}
+
+.App-header nav ul li a {
+  font-size: 18px;
+  padding: 10px;
+  background-color: #282c34;
+  color: white;
+  border-radius: 5px;
+  transition: background-color 0.3s;
+}
+
+.App-header nav ul li a:hover {
+  background-color: #61dafb;
+}
