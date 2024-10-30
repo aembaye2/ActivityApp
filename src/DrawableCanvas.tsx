@@ -3,9 +3,9 @@ import React, { useEffect, useState } from "react"
 import { fabric } from "fabric"
 import { isEqual } from "lodash"
 
-import CanvasToolbar from "./CanvasToolbar"
+import CanvasToolbar from "./components/CanvasToolbar"
 import { useCanvasState } from "./DrawableCanvasState"
-import { tools, FabricTool } from "../lib"
+import { tools, FabricTool } from "./lib"
 
 export interface ComponentArgs {
   fillColor: string
@@ -155,20 +155,20 @@ const DrawableCanvas = ({
     saveState,
   ])
 
-  // const downloadCallback = () => {
-  //   if (canvas) {
-  //     const dataURL = canvas.toDataURL({
-  //       format: "png",
-  //       quality: 1,
-  //     })
-  //     const link = document.createElement("a")
-  //     link.href = dataURL
-  //     link.download = "canvas.png"
-  //     link.click()
-  //   }
-  // }
+  const downloadCallback = () => {
+    if (canvas) {
+      const dataURL = canvas.toDataURL({
+        format: "png",
+        quality: 1,
+      })
+      const link = document.createElement("a")
+      link.href = dataURL
+      link.download = "canvas.png"
+      link.click()
+    }
+  }
 
-  const downloadCallback = () => {}
+  //const downloadCallback = () => {} //if you want to download button or to do nothing
 
   return (
     <div style={{ position: "relative" }}>

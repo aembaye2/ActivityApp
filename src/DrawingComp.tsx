@@ -5,14 +5,13 @@ import DrawableCanvas, { ComponentArgs } from "./DrawableCanvas"
 import DrawingModeSelector from "./DrawingModeSelector"
 import { CanvasStateProvider } from "./DrawableCanvasState"
 
-//import "./index.css"
-
 function DrawingComp() {
   const [drawingMode, setDrawingMode] = useState("point")
-  const [initialDrawing, setInitialDrawing] = useState({})
+  //const [initialDrawing, setInitialDrawing] = useState({})
+  const [initialDrawing, setInitialDrawing] = useState({ objects: [] })
 
   useEffect(() => {
-    fetch("initial_drawing.json")
+    fetch("initialDrawing.json")
       .then((response) => response.json())
       .then((data) => {
         // Set all objects to not selectable
@@ -20,18 +19,20 @@ function DrawingComp() {
           data.objects.forEach((obj: any) => {
             obj.selectable = false
           })
+          setInitialDrawing(data) // Use the fetched data
+        } else {
+          setInitialDrawing({ objects: [] }) // Fall back to an empty structure
         }
-        setInitialDrawing(data)
       })
       .catch((error) => console.error("Error fetching initial drawing:", error))
   }, [])
 
   const canvasWidth = 500
-  const canvasHeight = 400
+  const canvasHeight = 350
   const xlim = 100 // absolute in pixels
   const ylim = 100 // absolute in pixels
-  const bottom_margin = 55 //75 // absolute in pixels
-  const left_margin = 50 //84
+  const bottom_margin = 75 // absolute in pixels
+  const left_margin = 84
   const top_margin = 25
   const right_margin = 35
   const scaleFactors = [
@@ -59,7 +60,9 @@ function DrawingComp() {
   }
 
   return (
+    //<div className="center-content">
     <div>
+      <h1>Drawing Canvas!!</h1>
       <DrawingModeSelector
         drawingMode={drawingMode}
         setDrawingMode={setDrawingMode}

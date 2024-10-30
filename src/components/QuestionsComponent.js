@@ -2,7 +2,7 @@ import React, { useState } from "react"
 import { saveAs } from "file-saver"
 import html2canvas from "html2canvas"
 import { PDFDocument, StandardFonts } from "pdf-lib"
-import DrawingComp from "./DrawingComp"
+import DrawingComp from "../DrawingComp"
 
 const QuestionsComponent = ({ questions }) => {
   const [userAnswers, setUserAnswers] = useState({})
@@ -116,11 +116,20 @@ const QuestionsComponent = ({ questions }) => {
     const canvasImage = await generateCanvasImage()
 
     const pdfDoc = await PDFDocument.create()
-    const page = pdfDoc.addPage([600, 800])
     const font = await pdfDoc.embedFont(StandardFonts.Helvetica)
     const boldFont = await pdfDoc.embedFont(StandardFonts.HelveticaBold)
     const paddingLeft = 20
-    let yOffset = 750
+    const pageHeight = 800
+    const pageWidth = 600
+    let yOffset = pageHeight - 50
+
+    const addNewPage = () => {
+      const page = pdfDoc.addPage([pageWidth, pageHeight])
+      yOffset = pageHeight - 50
+      return page
+    }
+
+    let page = addNewPage()
 
     page.drawText(`Full Name: ${fullname}`, {
       x: paddingLeft,
@@ -131,6 +140,10 @@ const QuestionsComponent = ({ questions }) => {
     yOffset -= 40
 
     for (const [index, question] of userInputData.entries()) {
+      if (yOffset < 100) {
+        page = addNewPage()
+      }
+
       page.drawText(`${index + 1}. ${question.label}`, {
         x: paddingLeft,
         y: yOffset,
@@ -141,6 +154,10 @@ const QuestionsComponent = ({ questions }) => {
 
       if (question.qtype === "mc-quest") {
         for (const option of question.options) {
+          if (yOffset < 100) {
+            page = addNewPage()
+          }
+
           page.drawText(option, {
             x: paddingLeft + 20,
             y: yOffset,
@@ -149,6 +166,10 @@ const QuestionsComponent = ({ questions }) => {
           })
           yOffset -= 15
         }
+      }
+
+      if (yOffset < 100) {
+        page = addNewPage()
       }
 
       page.drawText(`Answer: ${question["user-answer"]}`, {
@@ -160,6 +181,10 @@ const QuestionsComponent = ({ questions }) => {
       yOffset -= 30
 
       if (question.qtype === "graphing-quest" && canvasImage) {
+        if (yOffset < 250) {
+          page = addNewPage()
+        }
+
         const pngImage = await pdfDoc.embedPng(canvasImage)
         page.drawImage(pngImage, {
           x: paddingLeft,
@@ -167,7 +192,7 @@ const QuestionsComponent = ({ questions }) => {
           width: 200,
           height: 200,
         })
-        yOffset -= 400
+        yOffset -= 250
       }
     }
 
@@ -187,9 +212,7 @@ const QuestionsComponent = ({ questions }) => {
     >
       <div style={{ textAlign: "right", padding: "20px" }}>
         {/* <button type="submit">Generate json file</button> */}
-        <button type="button" onClick={handleGenerateHTML}>
-          Generate HTML
-        </button>
+        {/*<button type="button" onClick={handleGenerateHTML}>           Generate HTML         </button>*/}
         <button type="button" onClick={handleGeneratePDF}>
           Generate PDF
         </button>
@@ -257,7 +280,7 @@ const QuestionsComponent = ({ questions }) => {
                 style={{
                   marginTop: "50px",
                   marginLeft: "50px",
-                  marginBottom: "50px",
+                  marginBottom: "400px",
                 }}
               >
                 <DrawingComp />
