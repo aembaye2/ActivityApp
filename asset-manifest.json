@@ -1,0 +1,13 @@
+{
+  "files": {
+    "main.css": "/ActivityApp/static/css/main.eedb106f.css",
+    "main.js": "/ActivityApp/static/js/main.575369ea.js",
+    "index.html": "/ActivityApp/index.html",
+    "main.eedb106f.css.map": "/ActivityApp/static/css/main.eedb106f.css.map",
+    "main.575369ea.js.map": "/ActivityApp/static/js/main.575369ea.js.map"
+  },
+  "entrypoints": [
+    "static/css/main.eedb106f.css",
+    "static/js/main.575369ea.js"
+  ]
+}
