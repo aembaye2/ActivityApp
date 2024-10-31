@@ -261,7 +261,7 @@ const QuestionsComponent = ({ questions }) => {
               <div style={{ marginTop: "10px" }}>
                 <input
                   type="text"
-                  maxLength={150}
+                  maxLength={60}
                   style={{ width: "100%" }}
                   onChange={(e) => handleInputChange(index, e.target.value)}
                 />
@@ -270,7 +270,6 @@ const QuestionsComponent = ({ questions }) => {
             {question.qtype === "manylines-text-quest" && (
               <div style={{ marginTop: "10px" }}>
                 <textarea
-                  maxLength={500}
                   style={{ width: "100%", height: "100px" }}
                   onChange={(e) => handleInputChange(index, e.target.value)}
                 />

@@ -62,7 +62,6 @@ function DrawingComp() {
   return (
     //<div className="center-content">
     <div>
-      <h1>Drawing Canvas!!</h1>
       <DrawingModeSelector
         drawingMode={drawingMode}
         setDrawingMode={setDrawingMode}
