@@ -7,6 +7,7 @@ import "./index.css"
 
 ReactDOM.render(
   <React.StrictMode>
+    <h1> React Typescript Drawing App</h1>
     <App />
   </React.StrictMode>,
   document.getElementById("root")

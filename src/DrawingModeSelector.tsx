@@ -17,7 +17,7 @@ const DrawingModeSelector: React.FC<DrawingModeSelectorProps> = ({
     // "polygon",
     // "rect",
     // "circle",
-    "freedraw",
+    //"freedraw",
     // "coordinate",
     // "curve",
     "singlearrowhead",
