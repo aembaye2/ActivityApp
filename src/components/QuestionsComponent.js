@@ -2,11 +2,11 @@ import React, { useState } from "react"
 import { saveAs } from "file-saver"
 import html2canvas from "html2canvas"
 import { PDFDocument, StandardFonts } from "pdf-lib"
-import DrawingComp from "../DrawingComp"
+import DrawingApp from "./DrawingApp"
 
 const QuestionsComponent = ({ questions }) => {
   const [userAnswers, setUserAnswers] = useState({})
-  const [fullname, setfullname] = useState("")
+  const [fullname, setFullname] = useState("")
 
   const handleInputChange = (questionId, value) => {
     setUserAnswers((prev) => ({
@@ -29,8 +29,8 @@ const QuestionsComponent = ({ questions }) => {
     saveAs(blob, "user-input.json")
   }
 
-  const generateCanvasImage = async () => {
-    const canvas = document.getElementById("canvas")
+  const generateCanvasImage = async (id) => {
+    const canvas = document.getElementById(id)
     if (canvas) {
       const canvasElement = await html2canvas(canvas)
       return canvasElement.toDataURL("image/png")
@@ -38,71 +38,28 @@ const QuestionsComponent = ({ questions }) => {
     return ""
   }
 
-  const handleGenerateHTML = async (e) => {
-    e.preventDefault()
+  const wrapText = (text, font, size, maxWidth) => {
+    const words = text.split(" ")
+    let lines = []
+    let currentLine = words[0]
 
-    const userInputData = questions.map((question, index) => ({
-      ...question,
-      "user-answer": userAnswers[index] || "",
-    }))
-
-    const canvasImage = await generateCanvasImage()
-
-    const htmlContent = `
-  <!DOCTYPE html>
-  <html lang="en">
-  <head>
-    <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>User Input</title>
-    <style>
-      .answer-box {
-        overflow: auto; 
-        border: 1px solid #ccc;
-        padding: 10px;
-        margin-bottom: 20px;
+    for (let i = 1; i < words.length; i++) {
+      const word = words[i]
+      const width = font.widthOfTextAtSize(currentLine + " " + word, size)
+      if (width < maxWidth) {
+        currentLine += " " + word
+      } else {
+        lines.push(currentLine)
+        currentLine = word
       }
-      .small-answer-box { height: 50px; }
-      .large-answer-box { height: 100px; }
-      .graphing-canvas { width: 50%; height: auto; } /* Adjust the width to make the image smaller */
-    </style>
-  </head>
-  <body>
-    <h2> Full Name: ${fullname}</h2>
-    ${userInputData
-      .map(
-        (question, index) => `
-      <div>
-        <h3>${index + 1}. ${question.label}</h3>
-        ${
-          question.qtype === "mc-quest"
-            ? `<ul>${question.options
-                .map((option) => `<li>${option}</li>`)
-                .join("")}</ul>`
-            : ""
-        }
-        <div class="answer-box ${
-          question.qtype === "manylines-text-quest"
-            ? "large-answer-box"
-            : "small-answer-box"
-        }">
-          <p>Answer: ${question["user-answer"]}</p>
-        </div>
-        ${
-          question.qtype === "graphing-quest" && canvasImage
-            ? `<div><h3>Graphing Canvas</h3><img src="${canvasImage}" alt="Graphing Canvas" class="graphing-canvas"/></div>`
-            : ""
-        }
-      </div>
-    `
-      )
-      .join("")}
-  </body>
-  </html>
-`
+    }
+    lines.push(currentLine)
+    return lines
+  }
 
-    const blob = new Blob([htmlContent], { type: "text/html" })
-    saveAs(blob, "user-input.html")
+  const addNewPage = (pdfDoc, pageWidth, pageHeight) => {
+    const page = pdfDoc.addPage([pageWidth, pageHeight])
+    return { page, yOffset: pageHeight - 50 }
   }
 
   const handleGeneratePDF = async (e) => {
@@ -113,86 +70,103 @@ const QuestionsComponent = ({ questions }) => {
       "user-answer": userAnswers[index] || "",
     }))
 
-    const canvasImage = await generateCanvasImage()
-
     const pdfDoc = await PDFDocument.create()
     const font = await pdfDoc.embedFont(StandardFonts.Helvetica)
     const boldFont = await pdfDoc.embedFont(StandardFonts.HelveticaBold)
     const paddingLeft = 20
     const pageHeight = 800
     const pageWidth = 600
-    let yOffset = pageHeight - 50
+    const maxWidth = pageWidth - 2 * paddingLeft
 
-    const addNewPage = () => {
-      const page = pdfDoc.addPage([pageWidth, pageHeight])
-      yOffset = pageHeight - 50
-      return page
+    let { page, yOffset } = addNewPage(pdfDoc, pageWidth, pageHeight)
+
+    const fullNameLines = wrapText(
+      `Full Name: ${fullname}`,
+      boldFont,
+      14,
+      maxWidth
+    )
+    for (const line of fullNameLines) {
+      page.drawText(line, {
+        x: paddingLeft,
+        y: yOffset,
+        size: 14,
+        font: boldFont,
+      })
+      yOffset -= 20
     }
-
-    let page = addNewPage()
-
-    page.drawText(`Full Name: ${fullname}`, {
-      x: paddingLeft,
-      y: yOffset,
-      size: 14,
-      font: boldFont,
-    })
-    yOffset -= 40
+    yOffset -= 20
 
     for (const [index, question] of userInputData.entries()) {
       if (yOffset < 100) {
-        page = addNewPage()
+        ;({ page, yOffset } = addNewPage(pdfDoc, pageWidth, pageHeight))
       }
 
-      page.drawText(`${index + 1}. ${question.label}`, {
-        x: paddingLeft,
-        y: yOffset,
-        size: 12,
-        font: font,
-      })
-      yOffset -= 20
+      const questionText = `${index + 1}. ${question.label}`
+      const questionLines = wrapText(questionText, font, 12, maxWidth)
+      for (const line of questionLines) {
+        page.drawText(line, {
+          x: paddingLeft,
+          y: yOffset,
+          size: 12,
+          font: font,
+        })
+        yOffset -= 20
+      }
 
       if (question.qtype === "mc-quest") {
         for (const option of question.options) {
           if (yOffset < 100) {
-            page = addNewPage()
+            ;({ page, yOffset } = addNewPage(pdfDoc, pageWidth, pageHeight))
           }
 
-          page.drawText(option, {
-            x: paddingLeft + 20,
-            y: yOffset,
-            size: 10,
-            font: font,
-          })
-          yOffset -= 15
+          const optionLines = wrapText(option, font, 10, maxWidth - 20)
+          for (const line of optionLines) {
+            page.drawText(line, {
+              x: paddingLeft + 20,
+              y: yOffset,
+              size: 10,
+              font: font,
+            })
+            yOffset -= 15
+          }
         }
       }
 
       if (yOffset < 100) {
-        page = addNewPage()
+        ;({ page, yOffset } = addNewPage(pdfDoc, pageWidth, pageHeight))
       }
 
-      page.drawText(`Answer: ${question["user-answer"]}`, {
-        x: paddingLeft,
-        y: yOffset,
-        size: 12,
-        font: boldFont,
-      })
-      yOffset -= 30
-
-      if (question.qtype === "graphing-quest" && canvasImage) {
-        if (yOffset < 250) {
-          page = addNewPage()
-        }
-
-        const pngImage = await pdfDoc.embedPng(canvasImage)
-        page.drawImage(pngImage, {
+      const answerText = `Answer: ${question["user-answer"]}`
+      const answerLines = wrapText(answerText, boldFont, 12, maxWidth)
+      for (const line of answerLines) {
+        page.drawText(line, {
           x: paddingLeft,
-          y: yOffset - 200,
-          width: 200,
-          height: 200,
+          y: yOffset,
+          size: 12,
+          font: boldFont,
         })
-        yOffset -= 250
+        yOffset -= 20
+      }
+      yOffset -= 10
+
+      if (question.qtype === "graphing-quest") {
+        const canvasId = `canvas-canvas-${index}`
+        const canvasImage = await generateCanvasImage(canvasId)
+        if (canvasImage) {
+          if (yOffset < 250) {
+            ;({ page, yOffset } = addNewPage(pdfDoc, pageWidth, pageHeight))
+          }
+
+          const pngImage = await pdfDoc.embedPng(canvasImage)
+          page.drawImage(pngImage, {
+            x: paddingLeft,
+            y: yOffset - 200,
+            width: 200,
+            height: 200,
+          })
+          yOffset -= 250
+        }
       }
     }
 
@@ -211,8 +185,6 @@ const QuestionsComponent = ({ questions }) => {
       }}
     >
       <div style={{ textAlign: "right", padding: "20px" }}>
-        {/* <button type="submit">Generate json file</button> */}
-        {/*<button type="button" onClick={handleGenerateHTML}>           Generate HTML         </button>*/}
         <button type="button" onClick={handleGeneratePDF}>
           Generate PDF
         </button>
@@ -224,71 +196,187 @@ const QuestionsComponent = ({ questions }) => {
             <input
               type="text"
               value={fullname}
-              onChange={(e) => setfullname(e.target.value)}
+              onChange={(e) => setFullname(e.target.value)}
               style={{ marginLeft: "10px", width: "400px", height: "35px" }}
             />
           </label>
         </div>
-        {questions.map((question, index) => (
-          <div key={index} style={{ marginBottom: "30px" }}>
-            <label>
-              {index + 1}. {question.label}
-            </label>
-            {question.qtype === "mc-quest" && (
-              <div>
-                {question.options.map((option, i) => (
-                  <div key={i}>
-                    <input
-                      type="radio"
-                      name={`question-${index}`}
-                      value={option}
-                      onChange={() => handleInputChange(index, option)}
-                    />
-                    {option}
-                  </div>
-                ))}
-              </div>
-            )}
-            {question.qtype === "float-num-quest" && (
-              <div style={{ marginTop: "10px" }}>
-                <input
-                  type="number"
-                  onChange={(e) => handleInputChange(index, e.target.value)}
-                />
-              </div>
-            )}
-            {question.qtype === "one-line-text-quest" && (
-              <div style={{ marginTop: "10px" }}>
-                <input
-                  type="text"
-                  maxLength={150}
-                  style={{ width: "100%" }}
-                  onChange={(e) => handleInputChange(index, e.target.value)}
-                />
-              </div>
-            )}
-            {question.qtype === "manylines-text-quest" && (
-              <div style={{ marginTop: "10px" }}>
-                <textarea
-                  maxLength={500}
-                  style={{ width: "100%", height: "100px" }}
-                  onChange={(e) => handleInputChange(index, e.target.value)}
-                />
-              </div>
-            )}
-            {question.qtype === "graphing-quest" && (
-              <div
-                style={{
-                  marginTop: "50px",
-                  marginLeft: "50px",
-                  marginBottom: "400px",
-                }}
-              >
-                <DrawingComp />
-              </div>
-            )}
+        <div style={{ display: "flex", flexWrap: "wrap" }}>
+          <div style={{ flex: "1", minWidth: "300px", paddingRight: "20px" }}>
+            {questions
+              .slice(0, Math.ceil(questions.length / 2))
+              .map((question, index) => (
+                <div key={index} style={{ marginBottom: "30px" }}>
+                  <label>
+                    {index + 1}. {question.label}
+                  </label>
+                  {question.qtype === "mc-quest" && (
+                    <div>
+                      {question.options.map((option, i) => (
+                        <div key={i}>
+                          <input
+                            type="radio"
+                            name={`question-${index}`}
+                            value={option}
+                            onChange={() => handleInputChange(index, option)}
+                          />
+                          {option}
+                        </div>
+                      ))}
+                    </div>
+                  )}
+                  {question.qtype === "float-num-quest" && (
+                    <div
+                      style={{
+                        marginTop: "10px",
+                      }}
+                    >
+                      <input
+                        type="number"
+                        style={{ height: "35px", fontSize: "16px" }} // Adjust the width as needed
+                        onChange={(e) =>
+                          handleInputChange(index, e.target.value)
+                        }
+                      />
+                    </div>
+                  )}
+                  {question.qtype === "one-line-text-quest" && (
+                    <div style={{ marginTop: "10px" }}>
+                      <input
+                        type="text"
+                        maxLength={150}
+                        style={{
+                          width: "95%",
+                          height: "35px",
+                          fontSize: "20px",
+                        }} // Adjust the width as needed
+                        onChange={(e) =>
+                          handleInputChange(index, e.target.value)
+                        }
+                      />
+                    </div>
+                  )}
+                  {question.qtype === "manylines-text-quest" && (
+                    <div style={{ marginTop: "10px" }}>
+                      <textarea
+                        maxLength={500}
+                        style={{ width: "96%", height: "100px" }}
+                        onChange={(e) =>
+                          handleInputChange(index, e.target.value)
+                        }
+                      />
+                    </div>
+                  )}
+                  {question.qtype === "graphing-quest" && (
+                    <div
+                      style={{
+                        marginTop: "50px",
+                        marginLeft: "50px",
+                        marginBottom: "500px",
+                      }}
+                    >
+                      <DrawingApp id={`canvas-${index}`} />
+                    </div>
+                  )}
+                </div>
+              ))}
           </div>
-        ))}
+          <div
+            style={{ width: "1px", backgroundColor: "#000", margin: "0 20px" }}
+          ></div>
+          <div style={{ flex: "1", minWidth: "300px", paddingLeft: "20px" }}>
+            {questions
+              .slice(Math.ceil(questions.length / 2))
+              .map((question, index) => (
+                <div
+                  key={index + Math.ceil(questions.length / 2)}
+                  style={{ marginBottom: "30px" }}
+                >
+                  <label>
+                    {index + 1 + Math.ceil(questions.length / 2)}.{" "}
+                    {question.label}
+                  </label>
+                  {question.qtype === "mc-quest" && (
+                    <div>
+                      {question.options.map((option, i) => (
+                        <div key={i}>
+                          <input
+                            type="radio"
+                            name={`question-${
+                              index + Math.ceil(questions.length / 2)
+                            }`}
+                            value={option}
+                            onChange={() =>
+                              handleInputChange(
+                                index + Math.ceil(questions.length / 2),
+                                option
+                              )
+                            }
+                          />
+                          {option}
+                        </div>
+                      ))}
+                    </div>
+                  )}
+                  {question.qtype === "float-num-quest" && (
+                    <div style={{ marginTop: "10px" }}>
+                      <input
+                        type="number"
+                        onChange={(e) =>
+                          handleInputChange(
+                            index + Math.ceil(questions.length / 2),
+                            e.target.value
+                          )
+                        }
+                      />
+                    </div>
+                  )}
+                  {question.qtype === "one-line-text-quest" && (
+                    <div style={{ marginTop: "10px" }}>
+                      <input
+                        type="text"
+                        maxLength={150}
+                        style={{ width: "100%" }}
+                        onChange={(e) =>
+                          handleInputChange(
+                            index + Math.ceil(questions.length / 2),
+                            e.target.value
+                          )
+                        }
+                      />
+                    </div>
+                  )}
+                  {question.qtype === "manylines-text-quest" && (
+                    <div style={{ marginTop: "10px" }}>
+                      <textarea
+                        maxLength={500}
+                        style={{ width: "100%", height: "100px" }}
+                        onChange={(e) =>
+                          handleInputChange(
+                            index + Math.ceil(questions.length / 2),
+                            e.target.value
+                          )
+                        }
+                      />
+                    </div>
+                  )}
+                  {question.qtype === "graphing-quest" && (
+                    <div
+                      style={{
+                        marginTop: "50px",
+                        marginLeft: "50px",
+                        marginBottom: "500px",
+                      }}
+                    >
+                      <DrawingApp
+                        id={`canvas-${index + Math.ceil(questions.length / 2)}`}
+                      />
+                    </div>
+                  )}
+                </div>
+              ))}
+          </div>
+        </div>
       </form>
     </div>
   )

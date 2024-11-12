@@ -2,28 +2,24 @@
   "questions": [
     {
       "qtype": "mc-quest",
-      "label": "Refer to Figure 14-1. The firm's short-run supply curve is its marginal cost curve above",
-      "options": ["A. $3.", "B. $6.30.", "C. $1.", "D. $4.50."],
-      "Ref": "img14-1.png"
-    },
-    {
-      "qtype": "float-num-quest",
-      "label": "What is the approximate numerical value of the profit at $8",
-      "Ref": "img14-1.p.png"
-    },
-    {
-      "qtype": "one-line-text-quest",
-      "label": "This is an example of one line text (maximum 60 words) question",
+      "label": "In the short-run, Fiscal policy mainly shifts",
+      "options": [
+        "A. AD curve",
+        "B. SRAS curve",
+        "C. LRAS curve",
+        "D. All of the above"
+      ],
       "Ref": ""
     },
     {
-      "qtype": "manylines-text-quest",
-      "label": "This is an example of multiple line text entering question",
+      "qtype": "one-line-text-quest",
+      "label": "The economy is overheating, with high inflation and output exceeding potential output. What is one  apporpriate fiscal policy instrument that the government can take to restore the economy to full employment to reduce the inflation? ",
       "Ref": ""
     },
     {
       "qtype": "graphing-quest",
-      "label": "Draw supply and demand showing that they are at equilibrium. Now shift the demand curve to the right. What happens to the equilibrium price and quantity?",
+      "label": "Continuing the situation above, draw the appropriate AD, SRAS, LRAS curves to show the initial inflationary gap. Then show the effect of the policy you prescribed in the (2) and how it shifts the curves when potential output is restored.",
+
       "Ref": ""
     }
   ]

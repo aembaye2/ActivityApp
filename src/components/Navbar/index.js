@@ -9,8 +9,8 @@ const Navbar = () => {
       <Nav>
         <Bars />
         <NavMenu>
-          <NavLink to="/ActLes09">Activity-Lesson09</NavLink>
-          <NavLink to="/Quiz2">Activity-Lesson10</NavLink>
+          <NavLink to="/ActLes09">Activity-L09</NavLink>
+          <NavLink to="/ActLes10">Activity-L10</NavLink>
         </NavMenu>
       </Nav>
     </>

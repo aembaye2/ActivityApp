@@ -2,9 +2,9 @@ import React from "react"
 
 import styles from "./CanvasToolbar.module.css"
 
-import bin from "../img/bin.png"
-import undo from "../img/undo.png"
-import download from "../img/download.png"
+import bin from "./img/bin.png"
+import undo from "./img/undo.png"
+//import download from "../img/download.png"
 
 interface SquareIconProps {
   imgUrl: string

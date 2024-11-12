@@ -3,11 +3,14 @@ import React, { useEffect, useState } from "react"
 import { fabric } from "fabric"
 import { isEqual } from "lodash"
 
-import CanvasToolbar from "./components/CanvasToolbar"
+import CanvasToolbar from "./CanvasToolbar"
 import { useCanvasState } from "./DrawableCanvasState"
 import { tools, FabricTool } from "./lib"
 
+// Define the ComponentArgs interface
+
 export interface ComponentArgs {
+  id: string
   fillColor: string
   strokeWidth: number
   strokeColor: string
@@ -21,8 +24,8 @@ export interface ComponentArgs {
   displayRadius: number
   scaleFactors: number[]
 }
-
 const DrawableCanvas = ({
+  id,
   fillColor,
   strokeWidth,
   strokeColor,
@@ -54,17 +57,17 @@ const DrawableCanvas = ({
   } = useCanvasState()
 
   useEffect(() => {
-    const c = new fabric.Canvas("canvas", {
+    const c = new fabric.Canvas(`canvas-${id}`, {
       enableRetinaScaling: false,
     })
-    const imgC = new fabric.StaticCanvas("backgroundimage-canvas", {
+    const imgC = new fabric.StaticCanvas(`backgroundimage-canvas-${id}`, {
       enableRetinaScaling: false,
     })
     setCanvas(c)
     setBackgroundCanvas(imgC)
 
     // Disable context menu on right-click
-    const canvasElement = document.getElementById("canvas")
+    const canvasElement = document.getElementById(`canvas-${id}`)
     if (canvasElement) {
       canvasElement.addEventListener("contextmenu", (e) => {
         e.preventDefault()
@@ -78,7 +81,7 @@ const DrawableCanvas = ({
         })
       }
     }
-  }, [])
+  }, [id])
 
   useEffect(() => {
     if (canvas && !isEqual(initialState, initialDrawing)) {
@@ -168,8 +171,6 @@ const DrawableCanvas = ({
     }
   }
 
-  //const downloadCallback = () => {} //if you want to download button or to do nothing
-
   return (
     <div style={{ position: "relative" }}>
       <div
@@ -181,7 +182,7 @@ const DrawableCanvas = ({
         }}
       >
         <canvas
-          id="backgroundimage-canvas"
+          id={`backgroundimage-canvas-${id}`}
           width={canvasWidth}
           height={canvasHeight}
         />
@@ -196,7 +197,7 @@ const DrawableCanvas = ({
         }}
       >
         <canvas
-          id="canvas"
+          id={`canvas-${id}`}
           width={canvasWidth}
           height={canvasHeight}
           style={{ border: "lightgrey 1px solid" }}
