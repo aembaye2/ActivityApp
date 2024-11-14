@@ -11,7 +11,7 @@ import {
   // Pencil,
   // Spline,
   //MoveUpRight,
-  MoveDiagonal,
+  //MoveDiagonal,
   Type,
   MousePointer2,
 } from "lucide-react"
@@ -36,11 +36,11 @@ const DrawingModeSelector: React.FC<DrawingModeSelectorProps> = ({
     //   icon: MoveUpRight,
     //   description: "Draw a single arrowhead",
     // },
-    {
-      mode: "doublearrowhead",
-      icon: MoveDiagonal,
-      description: "Draw a double arrowhead",
-    },
+    // {
+    //   mode: "doublearrowhead",
+    //   icon: MoveDiagonal,
+    //   description: "Draw a double arrowhead",
+    // },
     { mode: "point", icon: Dot, description: "Draw a point" },
     // { mode: "polygon", icon: Hexagon, description: "Draw a polygon" },
     // {

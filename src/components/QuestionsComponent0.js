@@ -1,6 +1,6 @@
 import React, { useState } from "react"
 import { saveAs } from "file-saver"
-//import html2canvas from "html2canvas"
+import html2canvas from "html2canvas"
 import { PDFDocument, StandardFonts } from "pdf-lib"
 import DrawingApp from "./DrawingApp"
 
@@ -29,14 +29,14 @@ const QuestionsComponent = ({ questions }) => {
     saveAs(blob, "user-input.json")
   }
 
-  // const generateCanvasImage = async (id) => {
-  //   const canvas = document.getElementById(id)
-  //   if (canvas) {
-  //     const canvasElement = await html2canvas(canvas)
-  //     return canvasElement.toDataURL("image/png")
-  //   }
-  //   return ""
-  // }
+  const generateCanvasImage = async (id) => {
+    const canvas = document.getElementById(id)
+    if (canvas) {
+      const canvasElement = await html2canvas(canvas)
+      return canvasElement.toDataURL("image/png")
+    }
+    return ""
+  }
 
   const wrapText = (text, font, size, maxWidth) => {
     const words = text.split(" ")
@@ -150,74 +150,15 @@ const QuestionsComponent = ({ questions }) => {
       }
       yOffset -= 10
 
-      // if (question.qtype === "graphing-quest") {
-      //   const canvasId = `canvas-canvas-${index}`
-      //   const canvasImage = await generateCanvasImage(canvasId)
-      //   if (canvasImage) {
-      //     if (yOffset < 250) {
-      //       ;({ page, yOffset } = addNewPage(pdfDoc, pageWidth, pageHeight))
-      //     }
-
-      //     const pngImage = await pdfDoc.embedPng(canvasImage)
-      //     page.drawImage(pngImage, {
-      //       x: paddingLeft,
-      //       y: yOffset - 200,
-      //       width: 200,
-      //       height: 200,
-      //     })
-      //     yOffset -= 250
-      //   }
-      // }
       if (question.qtype === "graphing-quest") {
-        const mainCanvasId = `canvas-canvas-${index}`
-        const backgroundCanvasId = `backgroundimage-canvas-canvas-${index}`
-
-        // Function to combine main and background canvases
-        async function combineCanvases(mainCanvasId, backgroundCanvasId) {
-          const mainCanvas = document.getElementById(mainCanvasId)
-          const backgroundCanvas = document.getElementById(backgroundCanvasId)
-
-          // Create a temporary canvas with the same dimensions
-          const tempCanvas = document.createElement("canvas")
-          tempCanvas.width = mainCanvas.width
-          tempCanvas.height = mainCanvas.height
-          const tempCtx = tempCanvas.getContext("2d")
-
-          // Draw the background canvas first
-          tempCtx.drawImage(
-            backgroundCanvas,
-            0,
-            0,
-            tempCanvas.width,
-            tempCanvas.height
-          )
-
-          // Draw the main canvas on top
-          tempCtx.drawImage(
-            mainCanvas,
-            0,
-            0,
-            tempCanvas.width,
-            tempCanvas.height
-          )
-
-          // Return the combined image as a data URL
-          return tempCanvas.toDataURL("image/png")
-        }
-
-        // Generate the combined image
-        const combinedCanvasImage = await combineCanvases(
-          mainCanvasId,
-          backgroundCanvasId
-        )
-
-        if (combinedCanvasImage) {
+        const canvasId = `canvas-canvas-${index}`
+        const canvasImage = await generateCanvasImage(canvasId)
+        if (canvasImage) {
           if (yOffset < 250) {
             ;({ page, yOffset } = addNewPage(pdfDoc, pageWidth, pageHeight))
           }
 
-          // Embed the combined image in the PDF
-          const pngImage = await pdfDoc.embedPng(combinedCanvasImage)
+          const pngImage = await pdfDoc.embedPng(canvasImage)
           page.drawImage(pngImage, {
             x: paddingLeft,
             y: yOffset - 200,
@@ -256,7 +197,7 @@ const QuestionsComponent = ({ questions }) => {
               type="text"
               value={fullname}
               onChange={(e) => setFullname(e.target.value)}
-              style={{ marginLeft: "10px", width: "400px", height: "40px" }}
+              style={{ marginLeft: "10px", width: "400px", height: "35px" }}
             />
           </label>
         </div>
@@ -305,7 +246,7 @@ const QuestionsComponent = ({ questions }) => {
                         type="text"
                         maxLength={150}
                         style={{
-                          width: "90%",
+                          width: "95%",
                           height: "35px",
                           fontSize: "20px",
                         }} // Adjust the width as needed
@@ -319,11 +260,7 @@ const QuestionsComponent = ({ questions }) => {
                     <div style={{ marginTop: "10px" }}>
                       <textarea
                         maxLength={500}
-                        style={{
-                          width: "96%",
-                          height: "100px",
-                          fontSize: "20px",
-                        }} // Adjust the width as needed
+                        style={{ width: "96%", height: "100px" }}
                         onChange={(e) =>
                           handleInputChange(index, e.target.value)
                         }
@@ -399,11 +336,7 @@ const QuestionsComponent = ({ questions }) => {
                       <input
                         type="text"
                         maxLength={150}
-                        style={{
-                          width: "95%",
-                          height: "35px",
-                          fontSize: "20px",
-                        }}
+                        style={{ width: "100%" }}
                         onChange={(e) =>
                           handleInputChange(
                             index + Math.ceil(questions.length / 2),
@@ -417,11 +350,7 @@ const QuestionsComponent = ({ questions }) => {
                     <div style={{ marginTop: "10px" }}>
                       <textarea
                         maxLength={500}
-                        style={{
-                          width: "100%",
-                          height: "100px",
-                          fontSize: "20px",
-                        }}
+                        style={{ width: "100%", height: "100px" }}
                         onChange={(e) =>
                           handleInputChange(
                             index + Math.ceil(questions.length / 2),

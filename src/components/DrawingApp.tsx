@@ -4,6 +4,7 @@ import React, { useState } from "react"
 import DrawableCanvas, { ComponentArgs } from "./DrawableCanvas"
 import DrawingModeSelector from "./DrawingModeSelector"
 import { CanvasStateProvider } from "./DrawableCanvasState"
+//import initialDrawing from "./initialDrawing2.json"
 
 interface DrawingAppProps {
   id: string
@@ -14,8 +15,8 @@ function DrawingApp({ id }: DrawingAppProps) {
   const [strokeColor, setStrokeColor] = useState("black")
   const [strokeWidth, setStrokeWidth] = useState(3)
 
-  const canvasWidth = 600
-  const canvasHeight = 400
+  const canvasWidth = 600 //700 //
+  const canvasHeight = 400 //500 //
   const xlim = 100 // absolute in pixels
   const ylim = 100 // absolute in pixels
   const bottom_margin = 75 // absolute in pixels
@@ -41,7 +42,7 @@ function DrawingApp({ id }: DrawingAppProps) {
     canvasWidth: canvasWidth,
     canvasHeight: canvasHeight,
     drawingMode: drawingMode,
-    initialDrawing: [{}],
+    initialDrawing: [{}], //initialDrawing, //
     displayToolbar: true,
     displayRadius: 3,
     scaleFactors: scaleFactors,

@@ -6,10 +6,6 @@ import { isEqual } from "lodash"
 import CanvasToolbar from "./CanvasToolbar"
 import { useCanvasState } from "./DrawableCanvasState"
 import { tools, FabricTool } from "./lib"
-import { rect2 } from "./constants"
-
-// Initialize the rectangle with canvas dimensions
-let rect2c
 
 // Define the ComponentArgs interface
 
@@ -106,8 +102,27 @@ const DrawableCanvas = ({
     }
 
     if (backgroundCanvas) {
-      rect2c = rect2(canvasWidth, canvasHeight)
-      backgroundCanvas.add(rect2c)
+      // Add static rectangle to background canvas
+      const rect = new fabric.Rect({
+        left: 75,
+        top: 25,
+        fill: "white",
+        width: canvasWidth - 100, //100
+        height: canvasHeight - 100, //100,
+        stroke: "black", // Border color
+        strokeWidth: 1, // Border width
+        selectable: false,
+        evented: false,
+        lockMovementX: true,
+        lockMovementY: true,
+        lockRotation: true,
+        lockScalingX: true,
+        lockScalingY: true,
+        hasControls: false,
+      })
+      const json = rect.toJSON()
+      console.log("This is the json rep", JSON.stringify(json, null, 2))
+      backgroundCanvas.add(rect)
       backgroundCanvas.renderAll()
     }
   }, [
@@ -130,6 +145,7 @@ const DrawableCanvas = ({
   useEffect(() => {
     if (canvas) {
       const selectedTool = new tools[drawingMode](canvas) as FabricTool
+      console.log("Selected tool:  22", selectedTool)
       const cleanupToolEvents = selectedTool.configureCanvas({
         fillColor: fillColor,
         strokeWidth: strokeWidth,
@@ -139,7 +155,7 @@ const DrawableCanvas = ({
         canvasHeight: canvasHeight,
         canvasWidth: canvasWidth,
       })
-
+      console.log("cleanupToolEvents: 23", cleanupToolEvents)
       const handleMouseUp = () => {
         saveState(canvas.toJSON())
       }
@@ -168,29 +184,15 @@ const DrawableCanvas = ({
   ])
 
   const downloadCallback = () => {
-    if (canvas && backgroundCanvas) {
-      // Create a temporary canvas element
-      const tempCanvas = document.createElement("canvas")
-      tempCanvas.width = canvasWidth
-      tempCanvas.height = canvasHeight
-      const tempContext = tempCanvas.getContext("2d")
-
-      if (tempContext) {
-        // Draw the background canvas onto the temporary canvas
-        tempContext.drawImage(backgroundCanvas.getElement(), 0, 0)
-
-        // Draw the main canvas onto the temporary canvas
-        tempContext.drawImage(canvas.getElement(), 0, 0)
-
-        // Generate the data URL from the temporary canvas
-        const dataURL = tempCanvas.toDataURL("image/png")
-
-        // Create a link element and trigger the download
-        const link = document.createElement("a")
-        link.href = dataURL
-        link.download = "canvas.png"
-        link.click()
-      }
+    if (canvas) {
+      const dataURL = canvas.toDataURL({
+        format: "png",
+        quality: 1,
+      })
+      const link = document.createElement("a")
+      link.href = dataURL
+      link.download = "canvas.png"
+      link.click()
     }
   }
 

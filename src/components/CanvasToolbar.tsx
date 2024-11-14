@@ -1,10 +1,8 @@
 import React from "react"
-
 import styles from "./CanvasToolbar.module.css"
-
 import bin from "./img/bin.png"
 import undo from "./img/undo.png"
-//import download from "../img/download.png"
+//import download from "./img/download.png"
 
 interface SquareIconProps {
   imgUrl: string
@@ -67,11 +65,11 @@ const CanvasToolbar = ({
 
   const iconElements = [
     // {
-    //   // imgUrl: download,
-    //   // altText: "download",
-    //   // invertX: false,
-    //   // enabled: true,
-    //   // clickCallback: downloadCallback,
+    //   imgUrl: download,
+    //   altText: "download",
+    //   invertX: false,
+    //   enabled: true,
+    //   clickCallback: downloadCallback,
     // },
     {
       imgUrl: undo,
