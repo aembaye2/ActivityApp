@@ -4,7 +4,7 @@ import data from "./questions3.json" // Import the JSON file
 
 const ActLes11 = () => {
   const currentDate = new Date()
-  const targetDate = new Date("2024-11-14T08:30:00")
+  const targetDate = new Date("2024-11-14T11:30:00")
   const endDate = new Date("2024-11-14T12:15:00")
 
   const isAvailable = currentDate >= targetDate && currentDate <= endDate
