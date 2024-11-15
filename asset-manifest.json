@@ -1,22 +1,22 @@
 {
   "files": {
     "main.css": "/ActivityApp/static/css/main.5153875f.chunk.css",
-    "main.js": "/ActivityApp/static/js/main.d922143f.chunk.js",
-    "main.js.map": "/ActivityApp/static/js/main.d922143f.chunk.js.map",
+    "main.js": "/ActivityApp/static/js/main.60c6a867.chunk.js",
+    "main.js.map": "/ActivityApp/static/js/main.60c6a867.chunk.js.map",
     "runtime-main.js": "/ActivityApp/static/js/runtime-main.bbb235cc.js",
     "runtime-main.js.map": "/ActivityApp/static/js/runtime-main.bbb235cc.js.map",
-    "static/js/2.e730658c.chunk.js": "/ActivityApp/static/js/2.e730658c.chunk.js",
-    "static/js/2.e730658c.chunk.js.map": "/ActivityApp/static/js/2.e730658c.chunk.js.map",
+    "static/js/2.cd173649.chunk.js": "/ActivityApp/static/js/2.cd173649.chunk.js",
+    "static/js/2.cd173649.chunk.js.map": "/ActivityApp/static/js/2.cd173649.chunk.js.map",
     "index.html": "/ActivityApp/index.html",
-    "precache-manifest.d4e265d5af6c3bff6b3891cf56296702.js": "/ActivityApp/precache-manifest.d4e265d5af6c3bff6b3891cf56296702.js",
+    "precache-manifest.ed1fa554c5268ce2496275a37001aeb9.js": "/ActivityApp/precache-manifest.ed1fa554c5268ce2496275a37001aeb9.js",
     "service-worker.js": "/ActivityApp/service-worker.js",
     "static/css/main.5153875f.chunk.css.map": "/ActivityApp/static/css/main.5153875f.chunk.css.map",
-    "static/js/2.e730658c.chunk.js.LICENSE.txt": "/ActivityApp/static/js/2.e730658c.chunk.js.LICENSE.txt"
+    "static/js/2.cd173649.chunk.js.LICENSE.txt": "/ActivityApp/static/js/2.cd173649.chunk.js.LICENSE.txt"
   },
   "entrypoints": [
     "static/js/runtime-main.bbb235cc.js",
-    "static/js/2.e730658c.chunk.js",
+    "static/js/2.cd173649.chunk.js",
     "static/css/main.5153875f.chunk.css",
-    "static/js/main.d922143f.chunk.js"
+    "static/js/main.60c6a867.chunk.js"
   ]
 }
