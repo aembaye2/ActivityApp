@@ -6,6 +6,8 @@ const ActLes11 = () => {
   const currentDate = new Date()
   const targetDate = new Date("2024-11-14T11:30:00")
   const endDate = new Date("2024-11-14T12:15:00")
+  // const targetDate = new Date("2024-11-15T11:30:00")
+  // const endDate = new Date("2024-11-19T23:59:00")
 
   const isAvailable = currentDate >= targetDate && currentDate <= endDate
 

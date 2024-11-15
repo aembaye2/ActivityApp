@@ -1,0 +1,29 @@
+{
+  "questions": [
+    {
+      "qtype": "graphing-quest",
+      "label": "Read the following article from bloomberg.com (Special Report, by Enda Curran, December, 08, 2022), 'China is the wild card for global inflation in 2023' URL: https://search.ebscohost.com/login.aspx?direct=true&AuthType=ip,sso&db=bth&AN=160683677&site=ehost-live&scope=site&custid=s8428489 (copy-paste to your browser if clicking doesn't work) . Based on this article, you will answer the following questions regarding the effect of what is going to happen in China on the U.S. economy in 2023. Remember, we are interested in what happens in the U.S. Assume the U.S. economy is in long-run equilibrium before China changes its policy. Using AD-AS model, mark the initial equilibrium as point 'A' in the below figure. Label all the axes, curves and initial value of the variables internal to the model. Then show the final position of the U.S. economy after this policy shift in China by drawing new appropriate curve(s) and labeling the new equilibrium point as 'B'. ",
+      "Ref": ""
+    },
+    {
+      "qtype": "manylines-text-quest",
+      "label": "Explain why the economy moves from initial point 'A' to 'B' ",
+      "Ref": ""
+    },
+    {
+      "qtype": "manylines-text-quest",
+      "label": "If the U.S. government or fed does nothing, explain how the economy moves to long-run equilibrium on its own.",
+      "Ref": ""
+    },
+    {
+      "qtype": "graphing-quest",
+      "label": "Now draw all the graphs that show points A, B, and the final long run you discussed in the previous question, label it 'C'. Label all the axes, curves, and points.",
+      "Ref": ""
+    },
+    {
+      "qtype": "one-line-text-quest",
+      "label": "What are the appropriate fiscal and monetary policies that the U.S. government and fed should implement to stabilize the economy by returning the economy to a point like 'C'?",
+      "Ref": ""
+    }
+  ]
+}

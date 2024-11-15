@@ -12,6 +12,7 @@ const Navbar = () => {
           <NavLink to="/ActLes09">Activity-L09</NavLink>
           <NavLink to="/ActLes10">Activity-L10</NavLink>
           <NavLink to="/ActLes11">Activity-L11</NavLink>
+          <NavLink to="/ExtraCreditExam2">ExtraCreditExam2</NavLink>
         </NavMenu>
       </Nav>
     </>
