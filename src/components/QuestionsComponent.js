@@ -150,24 +150,6 @@ const QuestionsComponent = ({ questions }) => {
       }
       yOffset -= 10
 
-      // if (question.qtype === "graphing-quest") {
-      //   const canvasId = `canvas-canvas-${index}`
-      //   const canvasImage = await generateCanvasImage(canvasId)
-      //   if (canvasImage) {
-      //     if (yOffset < 250) {
-      //       ;({ page, yOffset } = addNewPage(pdfDoc, pageWidth, pageHeight))
-      //     }
-
-      //     const pngImage = await pdfDoc.embedPng(canvasImage)
-      //     page.drawImage(pngImage, {
-      //       x: paddingLeft,
-      //       y: yOffset - 200,
-      //       width: 200,
-      //       height: 200,
-      //     })
-      //     yOffset -= 250
-      //   }
-      // }
       if (question.qtype === "graphing-quest") {
         const mainCanvasId = `canvas-canvas-${index}`
         const backgroundCanvasId = `backgroundimage-canvas-canvas-${index}`

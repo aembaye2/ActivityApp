@@ -86,7 +86,7 @@ function DrawingApp({ id }: DrawingAppProps) {
               <span>{strokeWidth}</span>
             </div>
           </div>
-          <DrawableCanvas {...canvasProps} id={`${id}`} />
+          <DrawableCanvas {...canvasProps} />
         </CanvasStateProvider>
       </div>
     </>

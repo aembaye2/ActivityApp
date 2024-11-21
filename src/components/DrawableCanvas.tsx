@@ -183,12 +183,12 @@ const DrawableCanvas = ({
         tempContext.drawImage(canvas.getElement(), 0, 0)
 
         // Generate the data URL from the temporary canvas
-        const dataURL = tempCanvas.toDataURL("image/png")
+        const dataURL = tempCanvas.toDataURL("image/png") // here is where the drawing is changed to png file
 
         // Create a link element and trigger the download
         const link = document.createElement("a")
-        link.href = dataURL
-        link.download = "canvas.png"
+        link.href = dataURL //href attribute in an <a> (anchor) tag specifies the URL of the page or resource that the link goes to. It stands for "hypertext reference."
+        link.download = "canvas.png" // here is where the file name is changed
         link.click()
       }
     }
