@@ -5,7 +5,7 @@ import data from "./ExtraCreditExam2.json" // Import the JSON file
 const ExtraCreditExam2 = () => {
   const currentDate = new Date()
   const targetDate = new Date("2024-11-15T11:30:00")
-  const endDate = new Date("2024-11-21T23:59:00")
+  const endDate = new Date("2024-12-31T23:59:00")
 
   const isAvailable = currentDate >= targetDate && currentDate <= endDate
 

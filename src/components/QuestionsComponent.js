@@ -1,6 +1,5 @@
 import React, { useState } from "react"
 import { saveAs } from "file-saver"
-//import html2canvas from "html2canvas"
 import { PDFDocument, StandardFonts } from "pdf-lib"
 import DrawingApp from "./DrawingApp"
 
@@ -28,15 +27,6 @@ const QuestionsComponent = ({ questions }) => {
 
     saveAs(blob, "user-input.json")
   }
-
-  // const generateCanvasImage = async (id) => {
-  //   const canvas = document.getElementById(id)
-  //   if (canvas) {
-  //     const canvasElement = await html2canvas(canvas)
-  //     return canvasElement.toDataURL("image/png")
-  //   }
-  //   return ""
-  // }
 
   const wrapText = (text, font, size, maxWidth) => {
     const words = text.split(" ")
@@ -154,18 +144,15 @@ const QuestionsComponent = ({ questions }) => {
         const mainCanvasId = `canvas-canvas-${index}`
         const backgroundCanvasId = `backgroundimage-canvas-canvas-${index}`
 
-        // Function to combine main and background canvases
         async function combineCanvases(mainCanvasId, backgroundCanvasId) {
           const mainCanvas = document.getElementById(mainCanvasId)
           const backgroundCanvas = document.getElementById(backgroundCanvasId)
 
-          // Create a temporary canvas with the same dimensions
           const tempCanvas = document.createElement("canvas")
           tempCanvas.width = mainCanvas.width
           tempCanvas.height = mainCanvas.height
           const tempCtx = tempCanvas.getContext("2d")
 
-          // Draw the background canvas first
           tempCtx.drawImage(
             backgroundCanvas,
             0,
@@ -174,7 +161,6 @@ const QuestionsComponent = ({ questions }) => {
             tempCanvas.height
           )
 
-          // Draw the main canvas on top
           tempCtx.drawImage(
             mainCanvas,
             0,
@@ -183,11 +169,9 @@ const QuestionsComponent = ({ questions }) => {
             tempCanvas.height
           )
 
-          // Return the combined image as a data URL
           return tempCanvas.toDataURL("image/png")
         }
 
-        // Generate the combined image
         const combinedCanvasImage = await combineCanvases(
           mainCanvasId,
           backgroundCanvasId
@@ -198,7 +182,6 @@ const QuestionsComponent = ({ questions }) => {
             ;({ page, yOffset } = addNewPage(pdfDoc, pageWidth, pageHeight))
           }
 
-          // Embed the combined image in the PDF
           const pngImage = await pdfDoc.embedPng(combinedCanvasImage)
           page.drawImage(pngImage, {
             x: paddingLeft,
@@ -213,7 +196,7 @@ const QuestionsComponent = ({ questions }) => {
 
     const pdfBytes = await pdfDoc.save()
     const blob = new Blob([pdfBytes], { type: "application/pdf" })
-    saveAs(blob, "user-input.pdf")
+    saveAs(blob, "my_assessment_copy.pdf")
   }
 
   return (
@@ -242,193 +225,76 @@ const QuestionsComponent = ({ questions }) => {
             />
           </label>
         </div>
-        <div style={{ display: "flex", flexWrap: "wrap" }}>
-          <div style={{ flex: "1", minWidth: "300px", paddingRight: "20px" }}>
-            {questions
-              .slice(0, Math.ceil(questions.length / 2))
-              .map((question, index) => (
-                <div key={index} style={{ marginBottom: "30px" }}>
-                  <label>
-                    {index + 1}. {question.label}
-                  </label>
-                  {question.qtype === "mc-quest" && (
-                    <div>
-                      {question.options.map((option, i) => (
-                        <div key={i}>
-                          <input
-                            type="radio"
-                            name={`question-${index}`}
-                            value={option}
-                            onChange={() => handleInputChange(index, option)}
-                          />
-                          {option}
-                        </div>
-                      ))}
-                    </div>
-                  )}
-                  {question.qtype === "float-num-quest" && (
-                    <div
-                      style={{
-                        marginTop: "10px",
-                      }}
-                    >
+        <div>
+          {questions.map((question, index) => (
+            <div key={index} style={{ marginBottom: "30px" }}>
+              <label>
+                {index + 1}. {question.label}
+              </label>
+              {question.qtype === "mc-quest" && (
+                <div>
+                  {question.options.map((option, i) => (
+                    <div key={i}>
                       <input
-                        type="number"
-                        style={{ height: "35px", fontSize: "16px" }} // Adjust the width as needed
-                        onChange={(e) =>
-                          handleInputChange(index, e.target.value)
-                        }
+                        type="radio"
+                        name={`question-${index}`}
+                        value={option}
+                        onChange={() => handleInputChange(index, option)}
                       />
+                      {option}
                     </div>
-                  )}
-                  {question.qtype === "one-line-text-quest" && (
-                    <div style={{ marginTop: "10px" }}>
-                      <input
-                        type="text"
-                        maxLength={150}
-                        style={{
-                          width: "90%",
-                          height: "35px",
-                          fontSize: "20px",
-                        }} // Adjust the width as needed
-                        onChange={(e) =>
-                          handleInputChange(index, e.target.value)
-                        }
-                      />
-                    </div>
-                  )}
-                  {question.qtype === "manylines-text-quest" && (
-                    <div style={{ marginTop: "10px" }}>
-                      <textarea
-                        maxLength={500}
-                        style={{
-                          width: "96%",
-                          height: "100px",
-                          fontSize: "20px",
-                        }} // Adjust the width as needed
-                        onChange={(e) =>
-                          handleInputChange(index, e.target.value)
-                        }
-                      />
-                    </div>
-                  )}
-                  {question.qtype === "graphing-quest" && (
-                    <div
-                      style={{
-                        marginTop: "50px",
-                        marginLeft: "50px",
-                        marginBottom: "500px",
-                      }}
-                    >
-                      <DrawingApp id={`canvas-${index}`} />
-                    </div>
-                  )}
+                  ))}
                 </div>
-              ))}
-          </div>
-          <div
-            style={{ width: "1px", backgroundColor: "#000", margin: "0 20px" }}
-          ></div>
-          <div style={{ flex: "1", minWidth: "300px", paddingLeft: "20px" }}>
-            {questions
-              .slice(Math.ceil(questions.length / 2))
-              .map((question, index) => (
+              )}
+              {question.qtype === "float-num-quest" && (
+                <div style={{ marginTop: "10px" }}>
+                  <input
+                    type="number"
+                    style={{ height: "35px", fontSize: "16px" }}
+                    onChange={(e) => handleInputChange(index, e.target.value)}
+                  />
+                </div>
+              )}
+              {question.qtype === "one-line-text-quest" && (
+                <div style={{ marginTop: "10px" }}>
+                  <input
+                    type="text"
+                    maxLength={150}
+                    style={{
+                      width: "90%",
+                      height: "35px",
+                      fontSize: "20px",
+                    }}
+                    onChange={(e) => handleInputChange(index, e.target.value)}
+                  />
+                </div>
+              )}
+              {question.qtype === "manylines-text-quest" && (
+                <div style={{ marginTop: "10px" }}>
+                  <textarea
+                    maxLength={500}
+                    style={{
+                      width: "96%",
+                      height: "100px",
+                      fontSize: "20px",
+                    }}
+                    onChange={(e) => handleInputChange(index, e.target.value)}
+                  />
+                </div>
+              )}
+              {question.qtype === "graphing-quest" && (
                 <div
-                  key={index + Math.ceil(questions.length / 2)}
-                  style={{ marginBottom: "30px" }}
+                  style={{
+                    marginTop: "50px",
+                    marginLeft: "50px",
+                    marginBottom: "500px",
+                  }}
                 >
-                  <label>
-                    {index + 1 + Math.ceil(questions.length / 2)}.{" "}
-                    {question.label}
-                  </label>
-                  {question.qtype === "mc-quest" && (
-                    <div>
-                      {question.options.map((option, i) => (
-                        <div key={i}>
-                          <input
-                            type="radio"
-                            name={`question-${
-                              index + Math.ceil(questions.length / 2)
-                            }`}
-                            value={option}
-                            onChange={() =>
-                              handleInputChange(
-                                index + Math.ceil(questions.length / 2),
-                                option
-                              )
-                            }
-                          />
-                          {option}
-                        </div>
-                      ))}
-                    </div>
-                  )}
-                  {question.qtype === "float-num-quest" && (
-                    <div style={{ marginTop: "10px" }}>
-                      <input
-                        type="number"
-                        onChange={(e) =>
-                          handleInputChange(
-                            index + Math.ceil(questions.length / 2),
-                            e.target.value
-                          )
-                        }
-                      />
-                    </div>
-                  )}
-                  {question.qtype === "one-line-text-quest" && (
-                    <div style={{ marginTop: "10px" }}>
-                      <input
-                        type="text"
-                        maxLength={150}
-                        style={{
-                          width: "95%",
-                          height: "35px",
-                          fontSize: "20px",
-                        }}
-                        onChange={(e) =>
-                          handleInputChange(
-                            index + Math.ceil(questions.length / 2),
-                            e.target.value
-                          )
-                        }
-                      />
-                    </div>
-                  )}
-                  {question.qtype === "manylines-text-quest" && (
-                    <div style={{ marginTop: "10px" }}>
-                      <textarea
-                        maxLength={500}
-                        style={{
-                          width: "100%",
-                          height: "100px",
-                          fontSize: "20px",
-                        }}
-                        onChange={(e) =>
-                          handleInputChange(
-                            index + Math.ceil(questions.length / 2),
-                            e.target.value
-                          )
-                        }
-                      />
-                    </div>
-                  )}
-                  {question.qtype === "graphing-quest" && (
-                    <div
-                      style={{
-                        marginTop: "50px",
-                        marginLeft: "50px",
-                        marginBottom: "500px",
-                      }}
-                    >
-                      <DrawingApp
-                        id={`canvas-${index + Math.ceil(questions.length / 2)}`}
-                      />
-                    </div>
-                  )}
+                  <DrawingApp id={`canvas-${index}`} />
                 </div>
-              ))}
-          </div>
+              )}
+            </div>
+          ))}
         </div>
       </form>
     </div>
