@@ -1,7 +1,7 @@
 import React, { useState } from "react"
 import { saveAs } from "file-saver"
 import { PDFDocument, StandardFonts } from "pdf-lib"
-import DrawingApp from "./DrawingApp"
+import DrawingApp from "./canvas/DrawingApp"
 
 const QuestionsComponent = ({ questions }) => {
   const [userAnswers, setUserAnswers] = useState({})

@@ -4,10 +4,9 @@ import React from "react"
 import { HashRouter as Router, Routes, Route } from "react-router-dom"
 import "./App.css"
 import Navbar from "./components/Navbar"
-import ActLes09 from "./pages/ActLes09"
-import ActLes10 from "./pages/ActLes10"
-import ActLes11 from "./pages/ActLes11"
-import ExtraCreditExam2 from "./pages/ExtraCreditExam2"
+// import ActLes09 from "./pages/quiz1/ActLes09"
+// import Page3 from "./pages/quiz3/Page3"
+import Pset1 from "./pages/pset1/Pset1"
 import Home from "./pages"
 import Footer from "./components/Footer" // Import the Footer component
 
@@ -18,11 +17,10 @@ function App() {
         <Navbar />
         <div className="content">
           <Routes>
-            <Route path="/" element={<Home />} />
-            <Route path="/ActLes09" element={<ActLes09 />} />
-            <Route path="/ActLes10" element={<ActLes10 />} />
-            <Route path="/ActLes11" element={<ActLes11 />} />
-            <Route path="/ExtraCreditExam2" element={<ExtraCreditExam2 />} />
+            <Route path="/Home" element={<Home />} />
+            {/* <Route path="/ActLes09" element={<ActLes09 />} />
+            <Route path="/Page3" element={<Page3 />} /> */}
+            <Route path="/Pset1" element={<Pset1 />} />
           </Routes>
         </div>
         <Footer />

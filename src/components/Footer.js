@@ -5,7 +5,10 @@ import "./Footer.css" // Optional: for styling
 const Footer = () => {
   return (
     <footer className="footer">
-      <p>© 2024 aembaye. All rights reserved.</p>
+      <p>
+        © 2025 aembaye. All rights reserved. No distribution of any material of
+        this page
+      </p>
     </footer>
   )
 }

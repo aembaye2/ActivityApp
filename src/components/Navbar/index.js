@@ -9,10 +9,8 @@ const Navbar = () => {
       <Nav>
         <Bars />
         <NavMenu>
-          <NavLink to="/ActLes09">Activity-01</NavLink>
-          {/* <NavLink to="/ActLes10">Activity-L10</NavLink>
-          <NavLink to="/ActLes11">Activity-L11</NavLink>
-          <NavLink to="/ExtraCreditExam2">ExtraCreditExam2</NavLink> */}
+          <NavLink to="/Home">Home</NavLink>
+          <NavLink to="/Pset1">Ch4 Activity</NavLink>
         </NavMenu>
       </Nav>
     </>

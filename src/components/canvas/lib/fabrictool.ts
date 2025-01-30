@@ -22,7 +22,7 @@ abstract class FabricTool {
     this._canvas = canvas
   }
 
-  /**
+  /*
    * Configure canvas and return a callback to clean eventListeners
    * @param args
    */

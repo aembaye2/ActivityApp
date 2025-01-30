@@ -1,6 +1,6 @@
 import React from "react"
-import QuestionsComponent from "../components/QuestionsComponent"
-import data from "./questions1.json" // Import the JSON file
+import QuestionsComponent from "../../components/QuestionsComponent1page"
+import data from "./questions.json" // Import the JSON file
 
 const ActLes09 = () => {
   // const currentDate = new Date()

@@ -12,7 +12,10 @@ const Home = () => {
         height: "100vh",
       }}
     >
-      <h1>Welcome to Econ 21003! Navigate to the Quiz you want to access.</h1>
+      <h1>
+        Welcome to Econ to Econ 21003! Navigate to the Assessment you should
+        access.
+      </h1>
     </div>
   )
 }

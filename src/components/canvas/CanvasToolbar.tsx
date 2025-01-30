@@ -1,8 +1,20 @@
+// CanvasToolbar.tsx
+//"use client";
 import React from "react"
 import styles from "./CanvasToolbar.module.css"
+//import { Save } from "lucide-react";
+
+// const bin = "/img/bin.png"; // it is in the public folder in nextjs app
+// const undo = "/img/undo.png"
+// const download = "/img/download.png"
+// //const download2 = "/img/circle-check-big.png";
+// const save = "/img/save.svg"
+
 import bin from "./img/bin.png"
 import undo from "./img/undo.png"
-//import download from "./img/download.png"
+import download from "./img/download.png"
+//const download2 = "/img/circle-check-big.png";
+const save = "/img/save.svg"
 
 interface SquareIconProps {
   imgUrl: string
@@ -16,7 +28,7 @@ interface SquareIconProps {
 const SquareIcon = ({
   imgUrl,
   altText,
-  invertX,
+  invertX = false,
   size,
   enabled,
   clickCallback,
@@ -35,9 +47,6 @@ const SquareIcon = ({
     onClick={clickCallback}
   />
 )
-SquareIcon.defaultProps = {
-  invertX: false,
-}
 
 interface CanvasToolbarProps {
   topPosition: number
@@ -45,6 +54,8 @@ interface CanvasToolbarProps {
   canUndo: boolean
   canRedo: boolean
   downloadCallback: () => void
+  downloadCallback2: () => void
+  saveCallback: () => void
   undoCallback: () => void
   redoCallback: () => void
   resetCallback: () => void
@@ -56,13 +67,14 @@ const CanvasToolbar = ({
   canUndo,
   canRedo,
   downloadCallback,
+  downloadCallback2,
+  saveCallback,
   undoCallback,
   redoCallback,
   resetCallback,
 }: CanvasToolbarProps) => {
   const GAP_BETWEEN_ICONS = 4
   const ICON_SIZE = 24
-
   const iconElements = [
     // {
     //   imgUrl: download,
@@ -70,6 +82,20 @@ const CanvasToolbar = ({
     //   invertX: false,
     //   enabled: true,
     //   clickCallback: downloadCallback,
+    // },
+    // {
+    //   imgUrl: download2,
+    //   altText: "complete",
+    //   invertX: true,
+    //   enabled: true,
+    //   clickCallback: downloadCallback2,
+    // },
+    // {
+    //   imgUrl: save,
+    //   altText: "saveto storage",
+    //   invertX: false,
+    //   enabled: true,
+    //   clickCallback: saveCallback,
     // },
     {
       imgUrl: undo,

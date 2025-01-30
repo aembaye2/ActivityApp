@@ -1,4 +1,3 @@
-// this file was delated to remove the circle drawing tool
 import { fabric } from "fabric"
 import FabricTool, { ConfigureCanvasProps } from "./fabrictool"
 
