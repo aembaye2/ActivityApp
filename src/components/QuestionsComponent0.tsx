@@ -10,7 +10,7 @@ interface QuizProps {
     qtype: string
     question: string
     options?: string[] //answers: string[];
-    Ref: string | string[]
+    Ref: string[]
   }[]
   userId: string | undefined
   quizName: string
@@ -108,9 +108,6 @@ const QuestionsComponent = ({ questions, userId, quizName }: QuizProps) => {
     if (currentQuestionIndex !== questions.length - 1) {
       setCurrentQuestionIndex(currentQuestionIndex + 1)
     } else {
-      alert(
-        "Please don't forget to download the PDF and submit it to gradescope. Finishing the assessment may save your work temporarly to your browser but it is not submitted to server where the instructor has access."
-      )
       setShowResults(true)
 
       // const apiRoute = quizName ? `/api/${quizName}Results` : null
@@ -225,49 +222,13 @@ const QuestionsComponent = ({ questions, userId, quizName }: QuizProps) => {
                   {questions &&
                     questions.length > 0 &&
                     currentQuestionIndex >= 0 &&
-                    questions[currentQuestionIndex].Ref.length > 0 && (
-                      <>
-                        {questions[currentQuestionIndex].Ref[0] === "img" && (
-                          <img
-                            src={
-                              process.env.PUBLIC_URL +
-                              "/" +
-                              questions[currentQuestionIndex].Ref[1]
-                            }
-                            alt="Question Reference"
-                            style={{ maxWidth: "50%", marginTop: "10px" }}
-                          />
-                        )}
-                        {questions[currentQuestionIndex].Ref[0] ===
-                          "url_link" && (
-                          <>
-                            <div>
-                              {questions[currentQuestionIndex].Ref[2] && (
-                                <span>
-                                  {questions[currentQuestionIndex].Ref[2]}&nbsp;
-                                </span>
-                              )}
-                              <a
-                                href={questions[currentQuestionIndex].Ref[1]}
-                                target="_blank"
-                                rel="noopener noreferrer"
-                              >
-                                {questions[currentQuestionIndex].Ref[1]}
-                              </a>
-                            </div>
-                          </>
-                        )}
-                      </>
+                    currentQuestionIndex < questions.length && (
+                      <label>
+                        {currentQuestionIndex + 1}.{" "}
+                        {questions[currentQuestionIndex].question}
+                      </label>
                     )}
-                  <br />
-                  {currentQuestionIndex < questions.length && (
-                    <label>
-                      {currentQuestionIndex + 1}.{" "}
-                      {questions[currentQuestionIndex].question}
-                    </label>
-                  )}
                 </div>
-
                 {/* Render question types based on the `qtype` */}
                 {questions[currentQuestionIndex].qtype === "mc-quest" && (
                   <div>
@@ -379,7 +340,7 @@ const QuestionsComponent = ({ questions, userId, quizName }: QuizProps) => {
                   style={{ marginRight: "200px" }} // Add margin to the left of the Next button
                 >
                   {currentQuestionIndex === questions.length - 1
-                    ? "Finish Assessment"
+                    ? "Finish Quiz"
                     : "Next Question →"}
                 </button>
 

@@ -7,7 +7,8 @@ export const handleGeneratePDF = async (
   e,
   questions,
   userAnswers,
-  fullname
+  fullname,
+  quizName
 ) => {
   e.preventDefault()
 
@@ -29,6 +30,7 @@ export const handleGeneratePDF = async (
         </style>
       </head>
       <body>
+       <h3 style="text-align: center;">Pdf Report for ${quizName}</h3>
         <h1>Full Name: ${fullname}</h1>
   `
 
@@ -80,7 +82,7 @@ export const handleGeneratePDF = async (
     // Convert HTML to PDF
     const opt = {
       margin: 1,
-      filename: "quiz_answers.pdf",
+      filename: `MyPdfReport4${quizName}.pdf`,
       image: { type: "jpeg", quality: 0.98 },
       html2canvas: { scale: 2 },
       jsPDF: { unit: "in", format: "letter", orientation: "portrait" },

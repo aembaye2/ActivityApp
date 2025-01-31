@@ -1,10 +1,8 @@
 import React from "react"
-//import QuizManual from "@/components/Quiz";
 import QuestionsComponent from "../../components/QuestionsComponent"
-//import { quiz } from "./data"; // Import the quiz data from data.ts
 import { quiz } from "./data" // Import the quiz data from data2.ts
 
-const quizName = "Pset1" // Name of the quiz
+const quizName = "hw01" // Name of the quiz
 
 const user = {
   data: {
@@ -14,7 +12,7 @@ const user = {
   },
 }
 
-const Pset1 = () => {
+const Hw01Comp = () => {
   // const currentDate = new Date()
   // const targetDate = new Date("2025-01-30T09:00:00")
   // const endDate = new Date("2025-01-04T23:59:00")
@@ -44,4 +42,4 @@ const Pset1 = () => {
   }
 }
 
-export default Pset1
+export default Hw01Comp

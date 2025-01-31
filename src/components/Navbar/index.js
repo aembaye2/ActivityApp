@@ -10,7 +10,8 @@ const Navbar = () => {
         <Bars />
         <NavMenu>
           <NavLink to="/Home">Home</NavLink>
-          <NavLink to="/Pset1">Ch4 Activity</NavLink>
+          <NavLink to="/ActCh04">Ch4 Activity</NavLink>
+          <NavLink to="/Hw01">Homework 1</NavLink>
         </NavMenu>
       </Nav>
     </>
