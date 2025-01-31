@@ -4,7 +4,7 @@ export const quiz = {
     {
       qtype: "graphing-quest",
       question:
-        "Draw initila demand and supply curves and mark the equilibrium as A. Show on the same graph below the effect of a fall in the price of CDs by shifting the appropriate curve(s)",
+        "The following is the market for music-downloads. Draw initial demand and supply curves and mark the equilibrium as A. Show on the same graph below the effect of a fall in the price of CDs by shifting the appropriate curve(s)",
       Ref: "",
     },
     {
