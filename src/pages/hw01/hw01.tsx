@@ -1,8 +1,9 @@
-import React from "react"
+import React, { useEffect } from "react"
 import QuestionsComponent from "../../components/QuestionsComponent"
 import { quiz } from "./data" // Import the quiz data from data2.ts
 
 const quizName = "hw01" // Name of the quiz
+//localStorage.setItem("quizName", quizName)
 
 const user = {
   data: {
@@ -13,6 +14,9 @@ const user = {
 }
 
 const Hw01Comp = () => {
+  // useEffect(() => {
+  //   localStorage.setItem("quizName", quizName)
+  // }, []) // Empty dependency array ensures this runs only once when the component mounts
   // const currentDate = new Date()
   // const targetDate = new Date("2025-01-30T09:00:00")
   // const endDate = new Date("2025-01-04T23:59:00")
@@ -25,7 +29,7 @@ const Hw01Comp = () => {
   if (!isAvailable) {
     return (
       <div className="container">
-        <h1>Quiz is temporarely not available yet</h1>
+        <h1>Quiz is temporarely unavailable yet</h1>
       </div>
     )
   } else {

@@ -5,15 +5,16 @@ import { fabric } from "fabric"
 import CanvasToolbar from "./CanvasToolbar"
 import { useCanvasState } from "./DrawableCanvasState"
 import { tools, FabricTool } from "./lib"
-import {
-  downloadCallback,
-  downloadCallback4Json,
-  logCanvasData,
-} from "./helpers"
+// import {
+//   downloadCallback,
+//   //downloadCallback4Json,
+//   //logCanvasData,
+// } from "./helpers"
 import { customBackground2 } from "./constants"
 //import { useCanvasStore } from "./useCanvasStore"
 
 export interface ComponentArgs {
+  AssessName: string
   index: number
   fillColor: string
   strokeWidth: number
@@ -30,6 +31,7 @@ export interface ComponentArgs {
 }
 
 const DrawableCanvas = ({
+  AssessName,
   index,
   fillColor,
   strokeWidth,
@@ -48,39 +50,6 @@ const DrawableCanvas = ({
   const canvasInstance = useRef<fabric.Canvas | null>(null)
   const backgroundCanvasRef = useRef<HTMLCanvasElement>(null)
   const backgroundCanvasInstance = useRef<fabric.StaticCanvas | null>(null)
-
-  // const save2Storage = () => {
-  //   if (canvasInstance.current && backgroundCanvasInstance.current) {
-  //     //if (canvasInstance.current) {
-  //     const canvasData = []
-
-  //     // Collect background canvas data if needed
-  //     if (backgroundCanvasInstance.current) {
-  //       const backgroundData = backgroundCanvasInstance.current.toJSON() // Assuming Fabric.js
-  //       canvasData.push({ background: backgroundData })
-  //     }
-
-  //     // Collect main canvas data
-  //     if (canvasInstance.current) {
-  //       const mainCanvasData = canvasInstance.current.toJSON() // Assuming Fabric.js
-  //       canvasData.push({ mainCanvas: mainCanvasData })
-  //     }
-
-  //     // Save the canvas data to localStorage
-  //     try {
-  //       //localStorage.setItem("canvasData", JSON.stringify(canvasData));
-  //       //setCurrentState(canvasData)
-  //       console.log(
-  //         "Canvas data saved to localStorage and/or currentState in DrawableCanvas.tsx: ",
-  //         canvasData
-  //       )
-  //     } catch (e) {
-  //       console.error("Error saving canvas data to localStorage:", e)
-  //     }
-  //   } else {
-  //     console.error("Canvas instances not found.")
-  //   }
-  // }
 
   const {
     canvasState: {
@@ -121,15 +90,12 @@ const DrawableCanvas = ({
         }
       )
 
-      // const rect = customBackground(canvasWidth, canvasHeight);
-      // backgroundCanvasInstance.current.add(rect);
-      // backgroundCanvasInstance.current.renderAll();
       const group = customBackground2(canvasWidth, canvasHeight, scaleFactors)
       backgroundCanvasInstance.current.add(group)
       backgroundCanvasInstance.current.renderAll()
     }
 
-    // Disable context menu on right-click
+    // // Disable context menu on right-click
     const canvasElement = canvasRef.current
     if (canvasElement) {
       canvasElement.addEventListener("contextmenu", (e) => {
@@ -146,7 +112,7 @@ const DrawableCanvas = ({
       canvasInstance.current?.dispose()
       backgroundCanvasInstance.current?.dispose()
     }
-  }, [resetState])
+  }, []) //[resetState])
 
   useEffect(() => {
     if (backgroundCanvasInstance.current && backgroundImageURL) {
@@ -209,7 +175,7 @@ const DrawableCanvas = ({
     saveState,
   ])
 
-  // Save the current drawing to localStorage whenever the canvas state changes
+  // Save the current drawing to L-Storage whenever the canvas state changes
   useEffect(() => {
     if (canvasInstance.current) {
       const saveToLocalStorage = () => {
@@ -218,12 +184,11 @@ const DrawableCanvas = ({
           : null
         if (canvasData) {
           localStorage.setItem(
-            `canvasDrawing-${index}`,
+            `${AssessName}-canvasDrawing-${index}`,
             JSON.stringify(canvasData)
           )
           console.log(
-            `Canvas data saved to localStorage for index ${index}, in DrawableCanvas.tsx using useEffect:`,
-            canvasData
+            `Canvasdrawing as .Json saved to localStorage for index ${AssessName}-${index}, in DrawableCanvas.tsx using useEffect.`
           )
         }
       }
@@ -234,12 +199,14 @@ const DrawableCanvas = ({
         canvasInstance.current?.off("object:added", saveToLocalStorage)
       }
     }
-  }, [canvasInstance.current, index]) // Monitor the index for changes
+  }, [canvasInstance.current, index, AssessName]) // Monitor the index for changes
 
-  //// Load the drawing from localStorage when the component mounts
+  //// Load the drawing from L-Storage when the component mounts
   useEffect(() => {
     if (canvasInstance.current) {
-      const savedDrawing = localStorage.getItem(`canvasDrawing-${index}`)
+      const savedDrawing = localStorage.getItem(
+        `${AssessName}-canvasDrawing-${index}`
+      )
       if (savedDrawing) {
         const parsedDrawing = JSON.parse(savedDrawing)
         if (canvasRef.current) {
@@ -254,7 +221,34 @@ const DrawableCanvas = ({
         }
       }
     }
-  }, [canvasInstance.current, index]) // Load the drawing whenever the `index` and canvasInstance.current changes
+  }, [canvasInstance.current, index, AssessName]) // Load the drawing whenever the `index` and canvasInstance.current changes
+
+  const downloadCallback = () => {
+    if (canvasInstance.current && backgroundCanvasInstance.current) {
+      const tempCanvas = document.createElement("canvas")
+      tempCanvas.width = canvasWidth
+      tempCanvas.height = canvasHeight
+      const tempContext = tempCanvas.getContext("2d")
+
+      if (tempContext) {
+        // Draw background canvas onto temp canvas
+        if (backgroundCanvasRef.current) {
+          tempContext.drawImage(backgroundCanvasRef.current, 0, 0)
+        }
+
+        if (canvasRef.current) {
+          tempContext.drawImage(canvasRef.current, 0, 0)
+        }
+
+        // Export temp canvas as image
+        const dataURL = tempCanvas.toDataURL("image/png")
+        const link = document.createElement("a")
+        link.href = dataURL
+        link.download = "canvas.png"
+        link.click()
+      }
+    }
+  }
 
   return (
     <div style={{ position: "relative" }}>
@@ -302,7 +296,7 @@ const DrawableCanvas = ({
             topPosition={0}
             leftPosition={canvasWidth + 5}
             downloadCallback={downloadCallback}
-            downloadCallback2={downloadCallback4Json}
+            //downloadCallback2={downloadCallback4Json}
             //downloadCallback3={logCanvasData}
             saveCallback={() => {}} //{save2Storage}
             canUndo={canUndo}

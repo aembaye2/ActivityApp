@@ -12,9 +12,8 @@ import styles from "./CanvasToolbar.module.css"
 
 import bin from "./img/bin.png"
 import undo from "./img/undo.png"
-import download from "./img/download.png"
-//const download2 = "/img/circle-check-big.png";
-const save = "/img/save.svg"
+//import download from "./img/download.png"
+//const save = "/img/save.svg"
 
 interface SquareIconProps {
   imgUrl: string
@@ -54,7 +53,7 @@ interface CanvasToolbarProps {
   canUndo: boolean
   canRedo: boolean
   downloadCallback: () => void
-  downloadCallback2: () => void
+  //downloadCallback2: () => void
   saveCallback: () => void
   undoCallback: () => void
   redoCallback: () => void
@@ -67,7 +66,7 @@ const CanvasToolbar = ({
   canUndo,
   canRedo,
   downloadCallback,
-  downloadCallback2,
+  //downloadCallback2,
   saveCallback,
   undoCallback,
   redoCallback,

@@ -58,10 +58,19 @@ export const handleGeneratePDF = async (
 
       htmlContent += `<div class="answer manylines-text-quest">${answerText}</div>`
     } else if (question.qtype === "graphing-quest") {
-      const combinedCanvasImage = localStorage.getItem(`canvasImage-${index}`)
+      // const combinedCanvasImage = localStorage.getItem(`canvasImage-${index}`)
+      // if (combinedCanvasImage) {
+      //   htmlContent += `<div ><strong>Answer:</strong></div>`
+      //   htmlContent += `<div class="answer graphing-quest"><img src="${combinedCanvasImage}" alt="Graphing Answer" /></div>`
+      // }
+      const combinedCanvasImage = localStorage.getItem(
+        `${quizName}-canvasImage-${index}`
+      )
+      htmlContent += `<div ><strong>Answer:</strong></div>`
       if (combinedCanvasImage) {
-        htmlContent += `<div ><strong>Answer:</strong></div>`
         htmlContent += `<div class="answer graphing-quest"><img src="${combinedCanvasImage}" alt="Graphing Answer" /></div>`
+      } else {
+        htmlContent += `<div class="answer graphing-quest"><canvas></canvas></div>`
       }
     } else {
       htmlContent += `<div class="answer"> <strong>Answer:</strong> ${question["user-answer"]}</div>`

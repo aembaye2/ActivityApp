@@ -1,8 +1,11 @@
-import React from "react"
+import React, { useEffect } from "react"
+//import React from "react"
 import QuestionsComponent from "../../components/QuestionsComponent"
 import { quiz } from "./data" // Import the quiz data from data2.ts
 
 const quizName = "ActCh04" // Name of the quiz
+
+//localStorage.setItem("quizName", quizName)
 
 const user = {
   data: {
@@ -13,6 +16,10 @@ const user = {
 }
 
 const Act04Comp = () => {
+  // useEffect(() => {
+  //   localStorage.setItem("quizName", quizName)
+  // }, []) // Empty dependency array ensures this runs only once when the component mounts
+
   // const currentDate = new Date()
   // const targetDate = new Date("2025-01-30T09:00:00")
   // const endDate = new Date("2025-01-04T23:59:00")

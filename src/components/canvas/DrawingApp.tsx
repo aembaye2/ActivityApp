@@ -1,28 +1,29 @@
 //DrawingApp.tsx
-"use client";
-import React, { useState, useEffect } from "react";
-import DrawableCanvas, { ComponentArgs } from "./DrawableCanvas";
-import DrawingModeSelector from "./DrawingModeSelector";
-import { CanvasStateProvider } from "./DrawableCanvasState";
+"use client"
+import React, { useState } from "react"
+import DrawableCanvas, { ComponentArgs } from "./DrawableCanvas"
+import DrawingModeSelector from "./DrawingModeSelector"
+import { CanvasStateProvider } from "./DrawableCanvasState"
 
 interface DrawingAppProps {
-  index: number;
+  AssessName: string
+  index: number
 }
 
-function DrawingApp({ index }: DrawingAppProps) {
+function DrawingApp({ index, AssessName }: DrawingAppProps) {
   //index is still prop because unlike the other props form previous components, it is not defined yet
-  const [drawingMode, setDrawingMode] = useState("point");
-  const [strokeColor, setStrokeColor] = useState("#000000");
-  const [strokeWidth, setStrokeWidth] = useState(2);
+  const [drawingMode, setDrawingMode] = useState("point")
+  const [strokeColor, setStrokeColor] = useState("#000000")
+  const [strokeWidth, setStrokeWidth] = useState(2)
 
-  const canvasWidth = 500;
-  const canvasHeight = 400;
-  const xlim = 100; // absolute in pixels
-  const ylim = 100; // absolute in pixels
-  const bottom_margin = 75; // absolute in pixels
-  const left_margin = 84;
-  const top_margin = 25;
-  const right_margin = 35;
+  const canvasWidth = 500
+  const canvasHeight = 400
+  const xlim = 100 // absolute in pixels
+  const ylim = 100 // absolute in pixels
+  const bottom_margin = 75 // absolute in pixels
+  const left_margin = 84
+  const top_margin = 25
+  const right_margin = 35
   const scaleFactors = [
     xlim,
     ylim,
@@ -30,9 +31,10 @@ function DrawingApp({ index }: DrawingAppProps) {
     left_margin,
     top_margin,
     right_margin,
-  ];
+  ]
 
   const canvasProps: ComponentArgs = {
+    AssessName: AssessName,
     index: index,
     fillColor: "transparent", //strokeColor, //
     strokeWidth: strokeWidth,
@@ -46,7 +48,7 @@ function DrawingApp({ index }: DrawingAppProps) {
     displayToolbar: true,
     displayRadius: 3,
     scaleFactors: scaleFactors,
-  };
+  }
 
   return (
     <>
@@ -90,7 +92,7 @@ function DrawingApp({ index }: DrawingAppProps) {
         </CanvasStateProvider>
       </div>
     </>
-  );
+  )
 }
 
-export default DrawingApp;
+export default DrawingApp
