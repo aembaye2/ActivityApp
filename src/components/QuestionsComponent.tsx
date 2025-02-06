@@ -99,12 +99,14 @@ const QuestionsComponent = ({ questions, userId, quizName }: QuizProps) => {
     }
 
     //if (showResults) return; // Prevent further updates after showing results ()
+    if (currentQuestionIndex === questions.length - 2) {
+      alert(
+        "Please don't forget to download the PDF and submit it to gradescope after you do the last question. Finishing the assessment may save your work temporarly to your browser but it doesn't submit it to the server where the instructor has access."
+      )
+    }
     if (currentQuestionIndex !== questions.length - 1) {
       setCurrentQuestionIndex(currentQuestionIndex + 1)
     } else {
-      alert(
-        "Please don't forget to download the PDF and submit it to gradescope. Finishing the assessment may save your work temporarly to your browser but it is not submitted to server where the instructor has access."
-      )
       setShowResults(true)
 
       // const apiRoute = quizName ? `/api/${quizName}Results` : null
