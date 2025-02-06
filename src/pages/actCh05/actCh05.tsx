@@ -39,12 +39,14 @@ const Act05Comp = () => {
     return (
       <div className="container">
         <h1>Please enter the password to access the quiz</h1>
-        <input
-          type="password"
-          value={password}
-          onChange={handlePasswordChange}
-        />
-        <button onClick={handlePasswordSubmit}>Submit</button>
+        <form onSubmit={handlePasswordSubmit}>
+          <input
+            type="password"
+            value={password}
+            onChange={handlePasswordChange}
+          />
+          <button type="submit">Submit</button>
+        </form>
       </div>
     )
   }

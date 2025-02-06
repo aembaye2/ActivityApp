@@ -20,8 +20,8 @@ export const quiz = {
     //   Ref: "",
     // },
     {
-      qtype: "float-num-quest",
-      question: "A. ",
+      qtype: "one-line-text-quest",
+      question: "A. Please enter the values by separating them by commas. ",
       Ref: "",
     },
     {
@@ -31,8 +31,8 @@ export const quiz = {
     },
 
     {
-      qtype: "float-num-quest",
-      question: "B. ",
+      qtype: "one-line-text-quest",
+      question: "B. Please enter the values separating them by commas. ",
       Ref: "",
     },
     {
@@ -41,7 +41,7 @@ export const quiz = {
       Ref: "",
     },
     {
-      qtype: "float-num-quest",
+      qtype: "one-line-text-quest",
       question: "C. ",
       Ref: "",
     },
