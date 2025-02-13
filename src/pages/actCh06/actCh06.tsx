@@ -24,7 +24,7 @@ const Act06Comp = () => {
   }
 
   const handlePasswordSubmit = () => {
-    if (password === "passit") {
+    if (password === "econ101") {
       setIsAuthenticated(true)
     } else {
       alert("Incorrect password")
@@ -35,21 +35,21 @@ const Act06Comp = () => {
   const questions = quiz.questions.filter((q) => q !== undefined) // Filter out undefined elementslist
   const userId = user?.data.user.id
 
-  // if (!isAuthenticated) {
-  //   return (
-  //     <div className="container">
-  //       <h1>Please enter the password to access the quiz</h1>
-  //       <form onSubmit={handlePasswordSubmit}>
-  //         <input
-  //           type="password"
-  //           value={password}
-  //           onChange={handlePasswordChange}
-  //         />
-  //         <button type="submit">Submit</button>
-  //       </form>
-  //     </div>
-  //   )
-  // }
+  if (!isAuthenticated) {
+    return (
+      <div className="container">
+        <h1>Please enter the password to access the quiz</h1>
+        <form onSubmit={handlePasswordSubmit}>
+          <input
+            type="password"
+            value={password}
+            onChange={handlePasswordChange}
+          />
+          <button type="submit">Submit</button>
+        </form>
+      </div>
+    )
+  }
 
   if (!isAvailable) {
     return (
