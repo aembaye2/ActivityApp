@@ -27,7 +27,7 @@ export const handleGeneratePDF = async (
           .answer { margin-top: 10px; white-space: pre-wrap; }
           .manylines-text-quest { height: 200px; overflow: hidden; }
           .graphing-quest { margin-top: 10px; }
-          .graphing-quest img { width: 150px; height: 150px; } /* Adjust the size of the embedded graph */
+          .graphing-quest img { width: 200px; height: 175px; } /* Adjust the size of the embedded graph */
         </style>
       </head>
       <body>
