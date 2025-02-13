@@ -1,31 +1,31 @@
 {
   "files": {
     "main.css": "/ActivityApp/static/css/main.32ef69c2.chunk.css",
-    "main.js": "/ActivityApp/static/js/main.cdbfd391.chunk.js",
-    "main.js.map": "/ActivityApp/static/js/main.cdbfd391.chunk.js.map",
-    "runtime-main.js": "/ActivityApp/static/js/runtime-main.bb336f4f.js",
-    "runtime-main.js.map": "/ActivityApp/static/js/runtime-main.bb336f4f.js.map",
-    "static/js/2.af98e3db.chunk.js": "/ActivityApp/static/js/2.af98e3db.chunk.js",
-    "static/js/2.af98e3db.chunk.js.map": "/ActivityApp/static/js/2.af98e3db.chunk.js.map",
-    "static/js/3.76d1ec3f.chunk.js": "/ActivityApp/static/js/3.76d1ec3f.chunk.js",
-    "static/js/3.76d1ec3f.chunk.js.map": "/ActivityApp/static/js/3.76d1ec3f.chunk.js.map",
-    "static/js/4.23753072.chunk.js": "/ActivityApp/static/js/4.23753072.chunk.js",
-    "static/js/4.23753072.chunk.js.map": "/ActivityApp/static/js/4.23753072.chunk.js.map",
-    "static/js/5.6cdd5efe.chunk.js": "/ActivityApp/static/js/5.6cdd5efe.chunk.js",
-    "static/js/5.6cdd5efe.chunk.js.map": "/ActivityApp/static/js/5.6cdd5efe.chunk.js.map",
+    "main.js": "/ActivityApp/static/js/main.0f7e01f7.chunk.js",
+    "main.js.map": "/ActivityApp/static/js/main.0f7e01f7.chunk.js.map",
+    "runtime-main.js": "/ActivityApp/static/js/runtime-main.b166f796.js",
+    "runtime-main.js.map": "/ActivityApp/static/js/runtime-main.b166f796.js.map",
+    "static/js/2.dac8a805.chunk.js": "/ActivityApp/static/js/2.dac8a805.chunk.js",
+    "static/js/2.dac8a805.chunk.js.map": "/ActivityApp/static/js/2.dac8a805.chunk.js.map",
+    "static/js/3.40ac768c.chunk.js": "/ActivityApp/static/js/3.40ac768c.chunk.js",
+    "static/js/3.40ac768c.chunk.js.map": "/ActivityApp/static/js/3.40ac768c.chunk.js.map",
+    "static/js/4.a3e64267.chunk.js": "/ActivityApp/static/js/4.a3e64267.chunk.js",
+    "static/js/4.a3e64267.chunk.js.map": "/ActivityApp/static/js/4.a3e64267.chunk.js.map",
+    "static/js/5.9fd3454b.chunk.js": "/ActivityApp/static/js/5.9fd3454b.chunk.js",
+    "static/js/5.9fd3454b.chunk.js.map": "/ActivityApp/static/js/5.9fd3454b.chunk.js.map",
     "index.html": "/ActivityApp/index.html",
-    "precache-manifest.892ea159d075e3e9c21c8e7b50082a2b.js": "/ActivityApp/precache-manifest.892ea159d075e3e9c21c8e7b50082a2b.js",
+    "precache-manifest.b1808cf51dc98417e72acadbea138a75.js": "/ActivityApp/precache-manifest.b1808cf51dc98417e72acadbea138a75.js",
     "service-worker.js": "/ActivityApp/service-worker.js",
     "static/css/main.32ef69c2.chunk.css.map": "/ActivityApp/static/css/main.32ef69c2.chunk.css.map",
-    "static/js/2.af98e3db.chunk.js.LICENSE.txt": "/ActivityApp/static/js/2.af98e3db.chunk.js.LICENSE.txt",
-    "static/js/3.76d1ec3f.chunk.js.LICENSE.txt": "/ActivityApp/static/js/3.76d1ec3f.chunk.js.LICENSE.txt",
-    "static/js/4.23753072.chunk.js.LICENSE.txt": "/ActivityApp/static/js/4.23753072.chunk.js.LICENSE.txt",
-    "static/js/5.6cdd5efe.chunk.js.LICENSE.txt": "/ActivityApp/static/js/5.6cdd5efe.chunk.js.LICENSE.txt"
+    "static/js/2.dac8a805.chunk.js.LICENSE.txt": "/ActivityApp/static/js/2.dac8a805.chunk.js.LICENSE.txt",
+    "static/js/3.40ac768c.chunk.js.LICENSE.txt": "/ActivityApp/static/js/3.40ac768c.chunk.js.LICENSE.txt",
+    "static/js/4.a3e64267.chunk.js.LICENSE.txt": "/ActivityApp/static/js/4.a3e64267.chunk.js.LICENSE.txt",
+    "static/js/5.9fd3454b.chunk.js.LICENSE.txt": "/ActivityApp/static/js/5.9fd3454b.chunk.js.LICENSE.txt"
   },
   "entrypoints": [
-    "static/js/runtime-main.bb336f4f.js",
-    "static/js/3.76d1ec3f.chunk.js",
+    "static/js/runtime-main.b166f796.js",
+    "static/js/3.40ac768c.chunk.js",
     "static/css/main.32ef69c2.chunk.css",
-    "static/js/main.cdbfd391.chunk.js"
+    "static/js/main.0f7e01f7.chunk.js"
   ]
 }
