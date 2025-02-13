@@ -1,8 +1,8 @@
 {
   "files": {
     "main.css": "/ActivityApp/static/css/main.32ef69c2.chunk.css",
-    "main.js": "/ActivityApp/static/js/main.12107a36.chunk.js",
-    "main.js.map": "/ActivityApp/static/js/main.12107a36.chunk.js.map",
+    "main.js": "/ActivityApp/static/js/main.65575033.chunk.js",
+    "main.js.map": "/ActivityApp/static/js/main.65575033.chunk.js.map",
     "runtime-main.js": "/ActivityApp/static/js/runtime-main.b166f796.js",
     "runtime-main.js.map": "/ActivityApp/static/js/runtime-main.b166f796.js.map",
     "static/js/2.dac8a805.chunk.js": "/ActivityApp/static/js/2.dac8a805.chunk.js",
@@ -14,7 +14,7 @@
     "static/js/5.9fd3454b.chunk.js": "/ActivityApp/static/js/5.9fd3454b.chunk.js",
     "static/js/5.9fd3454b.chunk.js.map": "/ActivityApp/static/js/5.9fd3454b.chunk.js.map",
     "index.html": "/ActivityApp/index.html",
-    "precache-manifest.1d195aaed41b88a7808a0745a4f3d065.js": "/ActivityApp/precache-manifest.1d195aaed41b88a7808a0745a4f3d065.js",
+    "precache-manifest.f52d7244fe3349b950302cc21abd8325.js": "/ActivityApp/precache-manifest.f52d7244fe3349b950302cc21abd8325.js",
     "service-worker.js": "/ActivityApp/service-worker.js",
     "static/css/main.32ef69c2.chunk.css.map": "/ActivityApp/static/css/main.32ef69c2.chunk.css.map",
     "static/js/2.dac8a805.chunk.js.LICENSE.txt": "/ActivityApp/static/js/2.dac8a805.chunk.js.LICENSE.txt",
@@ -26,6 +26,6 @@
     "static/js/runtime-main.b166f796.js",
     "static/js/3.40ac768c.chunk.js",
     "static/css/main.32ef69c2.chunk.css",
-    "static/js/main.12107a36.chunk.js"
+    "static/js/main.65575033.chunk.js"
   ]
 }
