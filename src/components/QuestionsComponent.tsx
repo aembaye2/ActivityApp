@@ -4,12 +4,13 @@ import DrawingApp from "./canvas/DrawingApp"
 import { handleGeneratePDF } from "./utils"
 //import { fabric } from "fabric";
 //import { useCanvasStore } from "./canvas/useCanvasStore"
+import { saveAs } from "file-saver"
 
 interface QuizProps {
   questions: {
     qtype: string
     question: string
-    options?: string[] //answers: string[];
+    options?: string[] | number[] //answers: string[];
     Ref: string | string[]
   }[]
   userId: string | undefined
@@ -17,30 +18,54 @@ interface QuizProps {
 }
 
 const QuestionsComponent = ({ questions, userId, quizName }: QuizProps) => {
-  // const [AssessName, setAssessName] = useState<string | null>(null)
-
-  // useEffect(() => {
-  //   const storedQuizName = localStorage.getItem("quizName")
-  //   console.log("storedQuizName", storedQuizName)
-  //   setAssessName(storedQuizName)
-  // }, [])
   //const [userAnswers, setUserAnswers] = useState<{    [key: number]: string | number;   }>({});
   const [userAnswers, setUserAnswers] = useState<{
     [key: number]: string | number
   }>({})
+
+  // storing the userAnswers in the L-storage and also the empty initial values of drawing values for graphing questions in the L-storage
   useEffect(() => {
     const storedAnswers = localStorage.getItem("userAnswers")
     if (storedAnswers) {
       setUserAnswers(JSON.parse(storedAnswers))
     }
+
+    // Initialize empty drawing values for graphing questions if not already stored
+    questions.forEach((question, index) => {
+      if (question.qtype === "graphing-quest") {
+        const drawingKey = `${quizName}-canvasDrawing-${index}`
+        if (!localStorage.getItem(drawingKey)) {
+          const initialDrawing = { objects: [], background: "" }
+          localStorage.setItem(drawingKey, JSON.stringify(initialDrawing))
+        }
+      }
+    })
   }, [])
+
+  // // one time saving the drawing values to a file
+  // useEffect(() => {
+  //   const drawingKey = `${quizName}-canvasDrawing-0`
+  //   const drawing = localStorage.getItem(drawingKey)
+
+  //   if (drawing) {
+  //     const blob = new Blob([`const drawing = ${drawing};`], {
+  //       type: "application/javascript",
+  //     })
+  //     saveAs(blob, `${drawingKey}.js`)
+  //     console.log(`File saved as ${drawingKey}.js`)
+  //   } else {
+  //     console.error(
+  //       `Failed to retrieve drawing from localStorage with key ${drawingKey}`
+  //     )
+  //   }
+  // }, [quizName])
 
   console.log("userAnswers", userAnswers)
   const [fullname, setFullname] = useState("")
   const [currentQuestionIndex, setCurrentQuestionIndex] = useState(0)
   console.log("currentQuestionIndex", currentQuestionIndex)
   const [showResults, setShowResults] = useState(false)
-
+  const [nextButtonClicked, setNextButtonClicked] = useState(false)
   //const currentState = useCanvasStore((state: any) => state.currentState) // get it from store
 
   const saveCanvasImage2storage = async (index: number) => {
@@ -91,6 +116,10 @@ const QuestionsComponent = ({ questions, userId, quizName }: QuizProps) => {
   }
 
   const handleNext = async () => {
+    setNextButtonClicked(true) // Set nextButtonClicked to true
+    console.log(
+      `value of nextButtonClicked in QuestionsComp.tsx is:' ${nextButtonClicked}`
+    )
     //console.log("currentState of canvas located in Qcomp.tsx : ", currentState) // this a state define here but fetched from store
     localStorage.setItem("userAnswers", JSON.stringify(userAnswers))
 
@@ -218,7 +247,7 @@ const QuestionsComponent = ({ questions, userId, quizName }: QuizProps) => {
                               questions[currentQuestionIndex].Ref[1]
                             }
                             alt="Question Reference"
-                            style={{ maxWidth: "50%", marginTop: "10px" }}
+                            style={{ maxWidth: "75%", marginTop: "10px" }}
                           />
                         )}
                         {questions[currentQuestionIndex].Ref[0] ===
@@ -333,6 +362,13 @@ const QuestionsComponent = ({ questions, userId, quizName }: QuizProps) => {
                     <DrawingApp
                       index={currentQuestionIndex}
                       AssessName={quizName || ""}
+                      canvasWidth={Number(
+                        questions[currentQuestionIndex].options?.[0] || 500
+                      )}
+                      canvasHeight={Number(
+                        questions[currentQuestionIndex].options?.[1] || 400
+                      )}
+                      nextButtonClicked={nextButtonClicked}
                     />
                   </div>
                 )}

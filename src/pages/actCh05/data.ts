@@ -21,8 +21,13 @@ export const quiz = {
     // },
     {
       qtype: "one-line-text-quest",
-      question: "A. Please enter the values by separating them by commas. ",
-      Ref: "",
+      question:
+        "A. Using the information in the above table, compute Nominal GDP in 2008 and 2009 & the percentage increase. Please enter the three values by separating them by commas or semicolon. ",
+      Ref: [
+        "img",
+        "fig16bb.png",
+        "Use the folowing to answer the questions below: ",
+      ],
     },
     {
       qtype: "manylines-text-quest",
@@ -32,7 +37,8 @@ export const quiz = {
 
     {
       qtype: "one-line-text-quest",
-      question: "B. Please enter the values separating them by commas. ",
+      question:
+        "B.  Using the information in the above table, compute Real GDP in 2008 and 2009 & the percentage increase. Please enter the three values by separating them by commas or semicolon. ",
       Ref: "",
     },
     {
@@ -42,7 +48,8 @@ export const quiz = {
     },
     {
       qtype: "one-line-text-quest",
-      question: "C. ",
+      question:
+        "C. What part of the percentage increase in NGDP is due to change in prices? Recall that Nominal GDP growth is the growth in production and growth of prices",
       Ref: "",
     },
     {

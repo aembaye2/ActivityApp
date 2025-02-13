@@ -3,7 +3,7 @@ import React, { useState } from "react"
 import QuestionsComponent from "../../components/QuestionsComponent"
 import { quiz } from "./data" // Import the quiz data from data2.ts
 
-const quizName = "ActCh05" // Name of the quiz
+const quizName = "ActCh06" // Name of the quiz
 
 //localStorage.setItem("quizName", quizName)
 
@@ -15,7 +15,7 @@ const user = {
   },
 }
 
-const Act05Comp = () => {
+const Act06Comp = () => {
   const [password, setPassword] = useState("")
   const [isAuthenticated, setIsAuthenticated] = useState(false)
 
@@ -70,4 +70,4 @@ const Act05Comp = () => {
   }
 }
 
-export default Act05Comp
+export default Act06Comp

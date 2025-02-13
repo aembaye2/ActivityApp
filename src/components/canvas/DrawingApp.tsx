@@ -8,16 +8,25 @@ import { CanvasStateProvider } from "./DrawableCanvasState"
 interface DrawingAppProps {
   AssessName: string
   index: number
+  canvasWidth: number
+  canvasHeight: number
+  nextButtonClicked: boolean
 }
 
-function DrawingApp({ index, AssessName }: DrawingAppProps) {
+function DrawingApp({
+  index,
+  AssessName,
+  canvasWidth,
+  canvasHeight,
+  nextButtonClicked,
+}: DrawingAppProps) {
   //index is still prop because unlike the other props form previous components, it is not defined yet
   const [drawingMode, setDrawingMode] = useState("point")
   const [strokeColor, setStrokeColor] = useState("#000000")
   const [strokeWidth, setStrokeWidth] = useState(2)
 
-  const canvasWidth = 500
-  const canvasHeight = 400
+  // const canvasWidth = 500
+  // const canvasHeight = 400
   const xlim = 100 // absolute in pixels
   const ylim = 100 // absolute in pixels
   const bottom_margin = 75 // absolute in pixels
@@ -48,6 +57,7 @@ function DrawingApp({ index, AssessName }: DrawingAppProps) {
     displayToolbar: true,
     displayRadius: 3,
     scaleFactors: scaleFactors,
+    nextButtonClicked: nextButtonClicked,
   }
 
   return (

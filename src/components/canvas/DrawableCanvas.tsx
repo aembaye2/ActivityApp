@@ -10,8 +10,11 @@ import { tools, FabricTool } from "./lib"
 //   //downloadCallback4Json,
 //   //logCanvasData,
 // } from "./helpers"
-import { customBackground2 } from "./constants"
+import { customBackground2, customBackground3 } from "./constants"
 //import { useCanvasStore } from "./useCanvasStore"
+const backgroundlist = [customBackground2, customBackground3]
+
+const customBackground = backgroundlist[1] // select the desired background
 
 export interface ComponentArgs {
   AssessName: string
@@ -28,6 +31,7 @@ export interface ComponentArgs {
   displayToolbar: boolean
   displayRadius: number
   scaleFactors: number[]
+  nextButtonClicked: boolean
 }
 
 const DrawableCanvas = ({
@@ -45,10 +49,11 @@ const DrawableCanvas = ({
   displayToolbar,
   displayRadius,
   scaleFactors,
+  nextButtonClicked,
 }: ComponentArgs) => {
   const canvasRef = useRef<HTMLCanvasElement>(null)
-  const canvasInstance = useRef<fabric.Canvas | null>(null)
   const backgroundCanvasRef = useRef<HTMLCanvasElement>(null)
+  const canvasInstance = useRef<fabric.Canvas | null>(null)
   const backgroundCanvasInstance = useRef<fabric.StaticCanvas | null>(null)
 
   const {
@@ -90,7 +95,8 @@ const DrawableCanvas = ({
         }
       )
 
-      const group = customBackground2(canvasWidth, canvasHeight, scaleFactors)
+      const group = customBackground(canvasWidth, canvasHeight, scaleFactors)
+
       backgroundCanvasInstance.current.add(group)
       backgroundCanvasInstance.current.renderAll()
     }
@@ -112,7 +118,7 @@ const DrawableCanvas = ({
       canvasInstance.current?.dispose()
       backgroundCanvasInstance.current?.dispose()
     }
-  }, []) //[resetState])
+  }, [resetState]) //[resetState])
 
   useEffect(() => {
     if (backgroundCanvasInstance.current && backgroundImageURL) {
@@ -175,8 +181,36 @@ const DrawableCanvas = ({
     saveState,
   ])
 
+  useEffect(() => {
+    if (canvasInstance.current) {
+      const savedDrawing = localStorage.getItem(
+        `${AssessName}-canvasDrawing-${index}`
+      )
+      if (savedDrawing) {
+        const parsedDrawing = JSON.parse(savedDrawing)
+        if (canvasRef.current) {
+          // Clear the canvas before loading the saved drawing
+          //canvasInstance.current.clear()
+
+          // Ensure the canvas is properly loaded from L-Storage.
+          canvasInstance.current?.loadFromJSON(parsedDrawing, () => {
+            canvasInstance.current?.renderAll()
+          })
+          console.log(
+            `Canvas data loaded from localStorage for index ${index}:`,
+            savedDrawing
+          )
+        }
+      }
+    }
+  }, [canvasInstance.current, index, AssessName]) // Load the drawing whenever the `index` and canvasInstance.current changes
+
   // Save the current drawing to L-Storage whenever the canvas state changes
   useEffect(() => {
+    console.log(
+      `value of nextButtonClicked in DrawableCanvas.tsx is:' ${nextButtonClicked}`
+    )
+    //if (nextButtonClicked && canvasInstance.current) {
     if (canvasInstance.current) {
       const saveToLocalStorage = () => {
         const canvasData = canvasInstance.current
@@ -200,28 +234,6 @@ const DrawableCanvas = ({
       }
     }
   }, [canvasInstance.current, index, AssessName]) // Monitor the index for changes
-
-  //// Load the drawing from L-Storage when the component mounts
-  useEffect(() => {
-    if (canvasInstance.current) {
-      const savedDrawing = localStorage.getItem(
-        `${AssessName}-canvasDrawing-${index}`
-      )
-      if (savedDrawing) {
-        const parsedDrawing = JSON.parse(savedDrawing)
-        if (canvasRef.current) {
-          // Ensure the canvas is properly loaded from localStorage.
-          canvasInstance.current?.loadFromJSON(parsedDrawing, () => {
-            canvasInstance.current?.renderAll()
-          })
-          console.log(
-            `Canvas data loaded from localStorage for index ${index}:`,
-            savedDrawing
-          )
-        }
-      }
-    }
-  }, [canvasInstance.current, index, AssessName]) // Load the drawing whenever the `index` and canvasInstance.current changes
 
   const downloadCallback = () => {
     if (canvasInstance.current && backgroundCanvasInstance.current) {

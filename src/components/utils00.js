@@ -2,7 +2,56 @@
 
 // import { saveAs } from "file-saver"
 // import html2pdf from "html2pdf.js"
-//import placeholderDrawing from "./public/placeholderImage"
+import { fabric } from "fabric"
+import placeholderDrawing from "./placeholderImage"
+
+function createTemporaryCanvasAndConvert() {
+  // Create a temporary canvas element programmatically
+  const canvasElement = document.createElement("canvas")
+  canvasElement.id = "canvas" // Set id as canvas
+  canvasElement.width = 500 // Set canvas width
+  canvasElement.height = 500 // Set canvas height
+  document.body.appendChild(canvasElement) // Add the canvas to the DOM
+
+  // Initialize the Fabric.js canvas
+  const canvas = new fabric.Canvas("canvas")
+
+  // Parse and add the drawing objects from the placeholderDrawing
+  placeholderDrawing.objects.forEach((obj) => {
+    if (obj.type === "line") {
+      const line = new fabric.Line([obj.x1, obj.y1, obj.x2, obj.y2], {
+        left: obj.left,
+        top: obj.top,
+        fill: obj.fill,
+        stroke: obj.stroke,
+        strokeWidth: obj.strokeWidth,
+        angle: obj.angle,
+        opacity: obj.opacity,
+        scaleX: obj.scaleX,
+        scaleY: obj.scaleY,
+        flipX: obj.flipX,
+        flipY: obj.flipY,
+      })
+      canvas.add(line)
+    }
+  })
+
+  // After adding objects, convert the canvas to a PNG image in base64
+  const base64Png = canvas.toDataURL({
+    format: "png",
+    quality: 1,
+  })
+
+  console.log(base64Png) // This will log the Base64 PNG string
+
+  // Clean up the canvas after use
+  //document.body.removeChild(canvasElement) // Optionally remove the canvas after use
+
+  return base64Png
+}
+
+// Call the function and get the Base64 PNG
+// createTemporaryCanvasAndConvert()
 
 export const handleGeneratePDF = async (
   e,
@@ -66,7 +115,9 @@ export const handleGeneratePDF = async (
       if (combinedCanvasImage) {
         htmlContent += `<div class="answer graphing-quest"><img src="${combinedCanvasImage}" alt="Graphing Answer" /></div>`
       } else {
-        htmlContent += `<div class="answer graphing-quest"><canvas></canvas></div>`
+        // Convert placeholderDrawing to an image
+        const placeholderImage = createTemporaryCanvasAndConvert()
+        htmlContent += `<div class="answer graphing-quest"><img src="${placeholderImage}" alt="Graphing Answer" /></div>`
       }
     } else {
       htmlContent += `<div class="answer"> <strong>Answer:</strong> ${question["user-answer"]}</div>`
@@ -86,11 +137,11 @@ export const handleGeneratePDF = async (
 
     // Convert HTML to PDF
     const opt = {
-      margin: [1, 1, 0.5, 1], // top, right, bottom, left margins in inches
+      margin: 1,
       filename: `MyPdfReport4${quizName}.pdf`,
       image: { type: "jpeg", quality: 0.98 },
       html2canvas: { scale: 2 },
-      jsPDF: { unit: "in", format: "A4", orientation: "portrait" },
+      jsPDF: { unit: "in", format: "letter", orientation: "portrait" },
     }
 
     html2pdf().from(htmlContent).set(opt).save()

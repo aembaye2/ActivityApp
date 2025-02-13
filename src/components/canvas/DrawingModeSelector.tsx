@@ -48,7 +48,7 @@ const DrawingModeSelector: React.FC<DrawingModeSelectorProps> = ({
     //   description: "Draw a rectangle",
     // },
     //{ mode: "circle", icon: Circle, description: "Draw a circle" },
-    //{ mode: "freedraw", icon: Pencil, description: "Free draw" },
+    { mode: "freedraw", icon: Pencil, description: "Free draw" },
     {
       mode: "coordinate",
       icon: process.env.PUBLIC_URL + "/coordicon.svg",
