@@ -239,9 +239,6 @@ const QuestionsComponent = ({ questions, userId, quizName }: QuizProps) => {
                     currentQuestionIndex >= 0 &&
                     questions[currentQuestionIndex].Ref.length > 0 && (
                       <>
-                        <div style={{ fontSize: "24px", fontWeight: "bold" }}>
-                          {`${questions[currentQuestionIndex].Ref[3]}`}
-                        </div>
                         {questions[currentQuestionIndex].Ref[0] === "img" && (
                           <img
                             src={
@@ -276,16 +273,10 @@ const QuestionsComponent = ({ questions, userId, quizName }: QuizProps) => {
                     )}
                   <br />
                   {currentQuestionIndex < questions.length && (
-                    <div style={{ marginTop: "20px" }}>
-                      <label
-                        style={{
-                          fontSize: "20px",
-                        }}
-                      >
-                        {currentQuestionIndex + 1}.{" "}
-                        {questions[currentQuestionIndex].question}
-                      </label>
-                    </div>
+                    <label>
+                      {currentQuestionIndex + 1}.{" "}
+                      {questions[currentQuestionIndex].question}
+                    </label>
                   )}
                 </div>
 
@@ -351,7 +342,7 @@ const QuestionsComponent = ({ questions, userId, quizName }: QuizProps) => {
                       maxLength={1000}
                       style={{
                         width: "96%",
-                        height: "200px",
+                        height: "100px",
                         fontSize: "20px",
                       }}
                       onChange={(e) =>

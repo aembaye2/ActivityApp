@@ -4,6 +4,7 @@ import DoubleArrowHeadTool from "./doublearrowhead"
 import CircleTool from "./circle"
 import CoordinateTool from "./coordinate"
 import CurveTool from "./curve"
+import Curve4ptsTool from "./curve4pts"
 import FreedrawTool from "./freedraw"
 import LineTool from "./line"
 import PointTool from "./point"
@@ -16,6 +17,7 @@ import TransformTool from "./transform"
 const tools: any = {
   circle: CircleTool,
   curve: CurveTool,
+  curve4pts: Curve4ptsTool,
   coordinate: CoordinateTool,
   text: TextTool,
   freedraw: FreedrawTool,
