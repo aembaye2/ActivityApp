@@ -55,8 +55,8 @@ const DrawingModeSelector: React.FC<DrawingModeSelectorProps> = ({
       icon: process.env.PUBLIC_URL + "/coordicon.svg",
       description: "Draw coordinates",
     },
-    { mode: "curve", icon: Spline, description: "Draw a curve" },
-    { mode: "curve4pts", icon: ChartSpline, description: "Draw a 4 pt curve" },
+    // { mode: "curve", icon: Spline, description: "Draw a curve" },
+    // { mode: "curve4pts", icon: ChartSpline, description: "Draw a 4 pt curve" },
     { mode: "text", icon: Type, description: "Add text" },
     // {
     //   mode: "transform",
