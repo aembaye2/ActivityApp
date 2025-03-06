@@ -4,10 +4,10 @@ import React from "react"
 import { Nav, NavLink, Bars, NavMenu } from "./NavbarElements"
 
 const Navbar = () => {
-  const hw02DueDate = new Date("2025-03-01T12:15:00") // Set the due date for Homework 2 with hours and minutes
   const currentDate = new Date()
-  const startDate = new Date("2025-03-06T11:30:00")
-  const act07DueDate = new Date("2025-03-06T12:20:00") // Set the due date for Homework 2 with hours and minutes
+  const startDate = new Date("2025-03-06T14:30:00")
+
+  const act08DueDate = new Date("2025-03-06T15:15:00") // Set the due date for Homework 2 with hours and minutes
 
   return (
     <>
@@ -22,13 +22,16 @@ const Navbar = () => {
           {/* {currentDate <= hw02DueDate && (
             <NavLink to="/ActCh06">Ch6 Activity</NavLink>
           )} */}
-          {currentDate >= startDate && currentDate <= act07DueDate && (
+          {/* {currentDate >= startDate && currentDate <= act07DueDate && (
             <NavLink to="/ActCh07">EconGrowthClassActivity</NavLink>
+          )} */}
+          {currentDate >= startDate && currentDate <= act08DueDate && (
+            <NavLink to="/ActCh08"> S&I-ClassA-ctivity</NavLink>
           )}
           {/* <NavLink to="/Hw01">Homework 1</NavLink> */}
-          {currentDate <= hw02DueDate && (
+          {/* {currentDate <= hw02DueDate && (
             <NavLink to="/Hw02">Homework 2</NavLink>
-          )}
+          )} */}
         </NavMenu>
       </Nav>
     </>

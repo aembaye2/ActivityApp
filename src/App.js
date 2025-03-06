@@ -13,6 +13,7 @@ import Act04Comp from "./pages/actCh04/actCh04"
 import Act05Comp from "./pages/actCh05/actCh05"
 import Act06Comp from "./pages/actCh06/actCh06"
 import ActCh07Comp from "./pages/actCh07/actCh07"
+import ActCh08Comp from "./pages/actCh08/actCh08"
 function App() {
   return (
     <Router>
@@ -28,6 +29,7 @@ function App() {
             <Route path="/ActCh05" element={<Act05Comp />} />
             <Route path="/ActCh06" element={<Act06Comp />} />
             <Route path="/ActCh07" element={<ActCh07Comp />} />
+            <Route path="/ActCh08" element={<ActCh08Comp />} />
           </Routes>
         </div>
         <Footer />
