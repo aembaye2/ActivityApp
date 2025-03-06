@@ -1,36 +1,45 @@
 import React, { useState, useEffect } from "react"
-import DrawingApp from "./canvas/DrawingApp"
+import { DrawingApp } from "ae-drawable-canvas"
 //import { handleJsonSave, handleGeneratePDF } from "./utils";
 import { handleGeneratePDF } from "./utils"
 //import { fabric } from "fabric";
 //import { useCanvasStore } from "./canvas/useCanvasStore"
-import { saveAs } from "file-saver"
+//import { saveAs } from "file-saver"
+import { modes } from "./modesfile"
 
 interface QuizProps {
   questions: {
     qtype: string
     question: string
-    options?: string[] | number[] //answers: string[];
+    options?: string[]
     Ref: string | string[]
   }[]
   userId: string | undefined
   quizName: string
 }
 
+// const drawingObj_starter: any = modes.filter((modeObj: any) =>
+//   ["point"].includes(modeObj.mode)
+// )
+
 const QuestionsComponent = ({ questions, userId, quizName }: QuizProps) => {
-  //const [userAnswers, setUserAnswers] = useState<{    [key: number]: string | number;   }>({});
   const [userAnswers, setUserAnswers] = useState<{
     [key: number]: string | number
   }>({})
+  const [fullname, setFullname] = useState("")
+  const [currentQuestionIndex, setCurrentQuestionIndex] = useState(0)
+  const [showResults, setShowResults] = useState(false)
+  const [nextButtonClicked, setNextButtonClicked] = useState(false)
+  const [filteredModes, setFilteredModes] = useState(modes) //useState(modes)  //useState(drawingObj_starter)
 
-  // storing the userAnswers in the L-storage and also the empty initial values of drawing values for graphing questions in the L-storage
+  console.log("filteredModes", filteredModes)
+
   useEffect(() => {
     const storedAnswers = localStorage.getItem("userAnswers")
     if (storedAnswers) {
       setUserAnswers(JSON.parse(storedAnswers))
     }
 
-    // Initialize empty drawing values for graphing questions if not already stored
     questions.forEach((question, index) => {
       if (question.qtype === "graphing-quest") {
         const drawingKey = `${quizName}-canvasDrawing-${index}`
@@ -40,33 +49,7 @@ const QuestionsComponent = ({ questions, userId, quizName }: QuizProps) => {
         }
       }
     })
-  }, [])
-
-  // // one time saving the drawing values to a file
-  // useEffect(() => {
-  //   const drawingKey = `${quizName}-canvasDrawing-0`
-  //   const drawing = localStorage.getItem(drawingKey)
-
-  //   if (drawing) {
-  //     const blob = new Blob([`const drawing = ${drawing};`], {
-  //       type: "application/javascript",
-  //     })
-  //     saveAs(blob, `${drawingKey}.js`)
-  //     console.log(`File saved as ${drawingKey}.js`)
-  //   } else {
-  //     console.error(
-  //       `Failed to retrieve drawing from localStorage with key ${drawingKey}`
-  //     )
-  //   }
-  // }, [quizName])
-
-  console.log("userAnswers", userAnswers)
-  const [fullname, setFullname] = useState("")
-  const [currentQuestionIndex, setCurrentQuestionIndex] = useState(0)
-  console.log("currentQuestionIndex", currentQuestionIndex)
-  const [showResults, setShowResults] = useState(false)
-  const [nextButtonClicked, setNextButtonClicked] = useState(false)
-  //const currentState = useCanvasStore((state: any) => state.currentState) // get it from store
+  }, [questions, quizName])
 
   const saveCanvasImage2storage = async (index: number) => {
     const mainCanvasId = `canvas-${index}`
@@ -80,7 +63,6 @@ const QuestionsComponent = ({ questions, userId, quizName }: QuizProps) => {
     ) as HTMLCanvasElement
 
     if (!mainCanvas || !backgroundCanvas) {
-      //if (!mainCanvas) {
       console.error("Canvas elements not found")
       return null
     }
@@ -111,23 +93,29 @@ const QuestionsComponent = ({ questions, userId, quizName }: QuizProps) => {
   const handleInputChange = (questionId: any, value: any) => {
     setUserAnswers((prev) => ({
       ...prev,
-      [questionId]: value, // Store the answer for the specific questionId
+      [questionId]: value,
     }))
   }
 
+  useEffect(() => {
+    if (questions[currentQuestionIndex].qtype === "graphing-quest") {
+      // Now you can use setFilteredModess to update the state
+      var x: string[] = questions[currentQuestionIndex].options || []
+      setFilteredModes(modes.filter((modeObj: any) => x.includes(modeObj.mode)))
+    }
+  }, [currentQuestionIndex])
+
   const handleNext = async () => {
-    setNextButtonClicked(true) // Set nextButtonClicked to true
-    console.log(
-      `value of nextButtonClicked in QuestionsComp.tsx is:' ${nextButtonClicked}`
-    )
-    //console.log("currentState of canvas located in Qcomp.tsx : ", currentState) // this a state define here but fetched from store
+    setNextButtonClicked(true)
     localStorage.setItem("userAnswers", JSON.stringify(userAnswers))
 
     if (questions[currentQuestionIndex].qtype === "graphing-quest") {
-      await saveCanvasImage2storage(currentQuestionIndex) //calling the function here
+      await saveCanvasImage2storage(currentQuestionIndex)
+      // // Now you can use setFilteredModess to update the state
+      // var x: string[] = questions[currentQuestionIndex].options || []
+      // setFilteredModes(modes.filter((modeObj: any) => x.includes(modeObj.mode)))
     }
 
-    //if (showResults) return; // Prevent further updates after showing results ()
     if (currentQuestionIndex === questions.length - 2) {
       alert(
         "Please don't forget to download the PDF and submit it to gradescope after you do the last question. Finishing the assessment may save your work temporarly to your browser but it doesn't submit it to the server where the instructor has access."
@@ -137,36 +125,6 @@ const QuestionsComponent = ({ questions, userId, quizName }: QuizProps) => {
       setCurrentQuestionIndex(currentQuestionIndex + 1)
     } else {
       setShowResults(true)
-
-      // const apiRoute = quizName ? `/api/${quizName}Results` : null
-
-      // if (!apiRoute) {
-      //   throw new Error("Quiz name is required to determine the API route.")
-      // }
-
-      // fetch(apiRoute, {
-      //   method: "POST",
-      //   headers: {
-      //     "Content-Type": "application/json",
-      //   },
-      //   body: JSON.stringify({
-      //     userId: userId,
-      //     userAnswers: userAnswers,
-      //     quizName: quizName,
-      //   }),
-      // })
-      //   .then((response) => {
-      //     if (!response.ok) {
-      //       throw new Error("Network response was not working.")
-      //     }
-      //     return response.json()
-      //   })
-      //   .then((data) => {
-      //     console.log("Quiz results saved successfully:", data)
-      //   })
-      //   .catch((error) => {
-      //     console.error("Error saving quiz results:", error)
-      //   })
     }
   }
 
@@ -179,11 +137,7 @@ const QuestionsComponent = ({ questions, userId, quizName }: QuizProps) => {
   return (
     <div className="min-h-[100px]">
       <div className="max-w-[1500px] mx-auto w-[90%] flex justify-center py-10 flex-col">
-        <form
-        // onSubmit={(e) => handleJsonSave(e, questions, userAnswers)}
-        // style={{ flex: "1" }}
-        >
-          {/* Render the question section or results based on `showResults` */}
+        <form>
           {!showResults ? (
             <>
               <div style={{ marginBottom: "30px" }}>
@@ -231,7 +185,6 @@ const QuestionsComponent = ({ questions, userId, quizName }: QuizProps) => {
                     : "Download PDF File"}
                 </button>
               </div>
-              {/* Displaying only the current question */}
               <div style={{ marginBottom: "20px" }}>
                 <div style={{ marginBottom: "20px" }}>
                   {questions &&
@@ -289,7 +242,6 @@ const QuestionsComponent = ({ questions, userId, quizName }: QuizProps) => {
                   )}
                 </div>
 
-                {/* Render question types based on the `qtype` */}
                 {questions[currentQuestionIndex].qtype === "mc-quest" && (
                   <div>
                     {questions[currentQuestionIndex].options?.map(
@@ -371,24 +323,14 @@ const QuestionsComponent = ({ questions, userId, quizName }: QuizProps) => {
                     <DrawingApp
                       index={currentQuestionIndex}
                       AssessName={quizName || ""}
-                      canvasWidth={Number(
-                        questions[currentQuestionIndex].options?.[0] || 500
-                      )}
-                      canvasHeight={Number(
-                        questions[currentQuestionIndex].options?.[1] || 400
-                      )}
+                      canvasWidth={500}
+                      canvasHeight={400}
                       nextButtonClicked={nextButtonClicked}
+                      modes={filteredModes}
                     />
                   </div>
                 )}
               </div>
-
-              {/* Navigation buttons */}
-              {/* <div>
-                <h1>Current Canvas State:</h1>
-                <pre>{JSON.stringify(currentState, null, 2)}</pre>
-                <button onClick={handleJsonClick}>Save Current State</button>
-              </div> */}
 
               <div
                 style={{
@@ -407,46 +349,21 @@ const QuestionsComponent = ({ questions, userId, quizName }: QuizProps) => {
                 <button
                   type="button"
                   onClick={handleNext}
-                  style={{ marginRight: "200px" }} // Add margin to the left of the Next button
+                  style={{ marginRight: "200px" }}
                 >
                   {currentQuestionIndex === questions.length - 1
                     ? "Finish Assessment"
                     : "Next Question →"}
                 </button>
-
-                {/* <div style={{ textAlign: "right", padding: "20px" }}>
-                  <button
-                    type="button"
-                    //disabled={currentQuestionIndex != questions.length - 1}
-                    onClick={(e) =>
-                      handleGeneratePDF(e, questions, userAnswers, fullname)
-                    }
-                  >
-                    {currentQuestionIndex === questions.length - 1
-                      ? "Download PDF File"
-                      : "Download PDF File"}
-                  </button>
-                </div> */}
               </div>
             </>
           ) : (
             <div className="text-center">
-              {/* Results section */}
               <div style={{ marginTop: "20px" }}>
                 <h3> You have successfully completed {quizName} ...! 📈</h3>
-
-                {/* <button
-                  type="submit"
-                  className="p-1 rounded-md bg-primary text-white text-center text-1xl"
-                >
-                  Download Json File
-                </button> */}
               </div>
               <div style={{ marginTop: "20px" }}>
-                <button
-                  onClick={() => window.location.reload()}
-                  // className="p-1 rounded-md bg-dark text-white text-center text-1xl mt-10"
-                >
+                <button onClick={() => window.location.reload()}>
                   Restart Assessement →
                 </button>
               </div>

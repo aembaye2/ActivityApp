@@ -2,39 +2,30 @@ export const quiz = {
   //qtype: "mc-quest" | "float-num-quest" | "one-line-text-quest" | "manylines-text-quest" | "graphing-quest";
   questions: [
     {
-      qtype: "graphing-quest",
-      question:
-        "The following is the market for music-downloads. Draw initial demand and supply curves and mark the equilibrium as A. Show on the same graph below the effect of a fall in the price of CDs by shifting the appropriate curve(s)",
-      options: [500, 400],
-      Ref: "",
-    },
-    {
-      qtype: "graphing-quest",
-      question:
-        "The following is the market for music-downloads. Draw initial demand and supply curves and mark the equilibrium as A. Show on the same graph below the effect of a fall in the price of CDs by shifting the appropriate curve(s)",
-      options: [500, 400],
-      Ref: "",
-    },
-    {
-      qtype: "graphing-quest",
-      question:
-        "The following is the market for music-downloads. Draw initial demand and supply curves and mark the equilibrium as A. Show on the same graph below the effect of a fall in the price of CDs by shifting the appropriate curve(s)",
-      options: [500, 400],
-      Ref: "",
-    },
-    {
-      qtype: "graphing-quest",
-      question:
-        "Similarly, starting from the original equilibrium show the effect of Sellers of music downloads negotiating a reduction in the royalties they must pay for each song they sell.",
-      options: [500, 400],
+      qtype: "mc-quest",
+      question: "What is the capital of France",
+      options: ["A. London", "B. Paris", "C. Amsterdam", "D. Berlin"],
       Ref: "",
     },
 
     {
       qtype: "graphing-quest",
       question:
-        "Similarly, starting from the original equilibrium show the effect of Sellers of music downloads negotiating a reduction in the royalties they must pay for each song they sell.",
-      options: [500, 400],
+        "The following is the market for music-downloads. Draw initial demand and supply curves and mark the equilibrium as A. Show on the same graph below the effect of a fall in the price of CDs by shifting the appropriate curve(s)",
+      options: ["line", "point", "curve"],
+      Ref: "",
+    },
+    {
+      qtype: "graphing-quest",
+      question:
+        "The following is the market for music-downloads. Draw initial demand and supply curves and mark the equilibrium as A. Show on the same graph below the effect of a fall in the price of CDs by shifting the appropriate curve(s)",
+      options: ["line", "point", "circle", "curve"],
+      Ref: "",
+    },
+    {
+      qtype: "float-num-quest",
+      question: "If x=5, what is the value of 2x+3?",
+      options: [],
       Ref: "",
     },
     {

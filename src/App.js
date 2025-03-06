@@ -12,7 +12,7 @@ import Hw02Comp from "./pages/hw02/hw02"
 import Act04Comp from "./pages/actCh04/actCh04"
 import Act05Comp from "./pages/actCh05/actCh05"
 import Act06Comp from "./pages/actCh06/actCh06"
-
+import ActCh07Comp from "./pages/actCh07/actCh07"
 function App() {
   return (
     <Router>
@@ -27,6 +27,7 @@ function App() {
             <Route path="/HW02" element={<Hw02Comp />} />
             <Route path="/ActCh05" element={<Act05Comp />} />
             <Route path="/ActCh06" element={<Act06Comp />} />
+            <Route path="/ActCh07" element={<ActCh07Comp />} />
           </Routes>
         </div>
         <Footer />
